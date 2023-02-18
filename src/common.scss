@@ -1,0 +1,76 @@
+$dark_black_1: #18191c;
+$dark_black_2: #202225;
+$light_black: #3a3c43;
+$grey_1: #8e9297;
+$grey_2: #d8d8d8;
+$white: #ffffff;
+$mint_light: #16d992;
+$neon: #e4f809;
+$error_red: #de1836;
+$etc_purple: #9b2df1;
+$etc_cyan: #00f0ff;
+$discord_purple: #5865f2;
+
+$nav_height: 60px;
+$content_width: 1260px;
+$content_padding: 50px;
+$screen_width: calc(#{$content_width} + #{$content_padding} * 2);
+$button_height: 60px;
+$footer_right: 50px;
+$footer_bottom: 30px;
+
+@mixin button_action {
+	cursor: pointer;
+
+	&:disabled {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	&:hover {
+		opacity: 0.9;
+	}
+
+	&:active {
+		opacity: 0.8;
+	}
+}
+
+@mixin set_color($color, $hover_color) {
+	&.mint {
+		@include set_color($mint_light, $dark_black_1);
+	}
+
+	&.white {
+		@include set_color($white, $dark_black_1);
+	}
+
+	&.black {
+		@include set_color($dark_black_1, $mint_light);
+	}
+}
+
+@mixin popup_background() {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 2;
+	backdrop-filter: blur(15px);
+	-webkit-backdrop-filter: blur(15px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(black, 0.5);
+}
+
+@mixin popup_box {
+	border-radius: 10px;
+	border: 1px solid $light_black;
+	padding: 15px 15px 35px;
+	position: relative;
+	overflow: hidden;
+	background-color: $dark_black_2;
+	bottom: 50px;
+}

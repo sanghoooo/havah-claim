@@ -1,0 +1,37 @@
+@import "../common.scss";
+
+.Links {
+	&.footer {
+		position: absolute;
+		right: $footer_right;
+		bottom: $footer_bottom;
+
+		> a:not(:last-child) {
+			margin-right: 25px;
+		}
+	}
+
+	&.congratulation {
+		> a:not(:first-child) {
+			margin-left: 15px;
+		}
+	}
+
+	> a {
+		display: inline-flex;
+		font-size: 0;
+		width: 30px;
+		height: 30px;
+		vertical-align: middle;
+		border-radius: 30px;
+		cursor: pointer;
+
+		&.back {
+			background-color: $white;
+		}
+
+		> img {
+			width: 100%;
+		}
+	}
+}

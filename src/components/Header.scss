@@ -1,0 +1,26 @@
+@import "../common.scss";
+
+header {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $nav_height;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 0 30px;
+    box-shadow: 0px 1px 0px rgba(116, 116, 116, 0.25);
+
+    >img.logo {
+        height: 42.58px;
+        margin-right: auto;
+    }
+
+    >p {
+        font-size: 14px;
+        margin-right: 10px;
+    }
+}

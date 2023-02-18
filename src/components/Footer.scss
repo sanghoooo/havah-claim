@@ -1,0 +1,19 @@
+@import "../common.scss";
+
+footer {
+    width: 100%;
+    background-color: $dark_black_2;
+    padding: 36px $footer_right $footer_bottom;
+    position: relative;
+
+    >img.logo {
+        width: 155px;
+    }
+
+    >p.copyright {
+        margin: 0;
+        margin-top: 31px;
+        font-size: 12px;
+        color: $white;
+    }
+}

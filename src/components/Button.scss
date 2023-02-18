@@ -1,0 +1,84 @@
+@import "../common.scss";
+
+@mixin set_color($color, $hover_color) {
+	color: $color;
+	border-color: $color;
+}
+
+.Button {
+	@include button_action();
+
+	display: inline-flex;
+	min-width: 260px;
+	height: $button_height;
+	padding: 0 10px;
+	background-color: unset;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	font-size: 17px;
+	align-items: center;
+	justify-content: center;
+
+	&.small {
+		min-width: 114px;
+		height: 30px;
+		font-size: 14px;
+	}
+
+	&.lined {
+		&.mint {
+			color: $mint_light;
+			border-color: $mint_light;
+		}
+
+		&.white {
+			color: $white;
+			border-color: $white;
+		}
+
+		&.black {
+			color: $dark_black_1;
+			border-color: $dark_black_1;
+		}
+
+		&.discord {
+			color: $discord_purple;
+			border-color: $discord_purple;
+		}
+	}
+
+	&.filled {
+		&.mint {
+			color: $dark_black_1;
+			border-color: $mint_light;
+			background-color: $mint_light;
+		}
+
+		&.white {
+			color: $dark_black_1;
+			border-color: $white;
+			background-color: $white;
+		}
+
+		&.black {
+			color: $mint_light;
+			border-color: $dark_black_1;
+			background-color: $dark_black_1;
+		}
+
+		&.discord {
+			color: $white;
+			border-color: $discord_purple;
+			background-color: $discord_purple;
+		}
+	}
+
+	> img {
+		position: relative;
+		bottom: 1px;
+		margin-left: 5px;
+		width: 1.1em !important;
+		height: 1.1em !important;
+	}
+}
