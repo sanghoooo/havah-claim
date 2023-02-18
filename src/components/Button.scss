@@ -46,6 +46,11 @@
 			color: $discord_purple;
 			border-color: $discord_purple;
 		}
+
+		&.twitter {
+			color: $twitter_sky;
+			border-color: $twitter_sky;
+		}
 	}
 
 	&.filled {
@@ -71,6 +76,12 @@
 			color: $white;
 			border-color: $discord_purple;
 			background-color: $discord_purple;
+		}
+
+		&.twitter {
+			color: $white;
+			border-color: $twitter_sky;
+			background-color: $twitter_sky;
 		}
 	}
 

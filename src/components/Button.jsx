@@ -2,6 +2,7 @@ import { classBind } from "../utils/util";
 import "./Button.scss";
 
 function Button({
+	twitter,
 	discord,
 	white,
 	black,
@@ -27,7 +28,8 @@ function Button({
 				small && "small",
 				lined && "lined",
 				filled && "filled",
-				discord && "discord"
+				discord && "discord",
+				twitter && "twitter"
 			)}
 		>
 			{title}

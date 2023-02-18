@@ -1,6 +1,38 @@
 import medium from "../assets/medium.svg";
 import logo_small from "../assets/logo_small.svg";
-import isMobile from "ismobilejs";
+import mobile from "is-mobile";
+
+export const IS_DEV = !window.location.origin.includes("havah.io");
+
+export const EMAIL_SERVER = IS_DEV ? "https://dev-openapi.havah.io" : "https://openapi.havah.io";
+export const X_CLIENT_ID = IS_DEV ? "dev" : "";
+export const X_CLIENT_SECRET = IS_DEV ? "dev" : "";
+
+export const DISCORD_CLIENT_ID = "1075705706356936796";
+export const DISCORD_CLIENT_SECRET = "Ug228F8e3p_HRVxM7xRXebibu0t6ip8s";
+export const DISCORD_LOGIN_LINK = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${window.location.origin}&response_type=code&scope=identify%20guilds`;
+export const HAVAH_GUILD_ID = "988047406266466366";
+
+export const DISCORD_SERVER = "https://discord.gg/havahofficial";
+
+export const EMAIL_ERROR = {
+	E001: "INVALID_EMAIL",
+	E002: "INVALID_TOKEN",
+	E003: "ALREADY_VERIFIED_EMAIL",
+	E004: "WRONG_ACCESS",
+};
+
+export const INITIAL_CONTENTS_COMPLETED = {
+	wallet: false,
+	discord: false,
+	twitter: false,
+	email: false,
+	claim: false,
+};
+
+//////////
+
+export const IS_LOCAL = true;
 
 export const MOCK_SERVER = "https://b9fd7648-f64f-4bb9-8213-d7bf2f9723ae.mock.pstmn.io";
 export const EVENT_SERVER = "https://event.vega.havah.io";
@@ -11,15 +43,10 @@ export const SCAN_ADDRESS_LINK = "https://scan.vega.havah.io/address/";
 export const SCAN_TX_HASH_LINK = "https://scan.vega.havah.io/txn/";
 export const SIGN_UP_LINK = "https://havah.io/?PageName=signup";
 export const MITTER_LINK = "https://mitter.vega.havah.io/bridge/nft";
-export const DISCORD_LOGIN_LINK =
-	"https://discord.com/oauth2/authorize?client_id=1075705706356936796&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code&scope=identify%20guilds";
 export const COPYRIGHT = "Copyright © 2022 WEB3 SOLUTIONS PTE. LTD. All Rights Reserved.";
 export const MINIMUM_BALANCE = 10;
 
-export const IS_MOBILE = isMobile(window.navigator).any;
-export const IS_LOCAL = ["localhost", "127.0.0.1"].some((host) =>
-	window.location.origin.includes(host)
-);
+export const IS_MOBILE = mobile();
 export const IS_FIREBASEAPP = ["firebaseapp.com"].some((host) =>
 	window.location.origin.includes(host)
 );
@@ -72,28 +99,6 @@ export const ERROR_MESSAGE = {
 	[2]: "This email is already in use. Please use another email.",
 	[3]: "This email has not been registered at HAVAH.io",
 	[4]: "No balance in the faucet.\nPlease try again later.",
-};
-
-export const INITIAL_CONTENTS_VALUES = {
-	discord: "",
-
-	/////
-	email: "",
-	hvh: 0,
-	nft: "",
-};
-
-export const INITIAL_CONTENTS_COMPLETED = {
-	wallet: false,
-	discord: true,
-	twitter: false,
-
-	/////
-	email: false,
-	hvh: false,
-	nft: false,
-	bridged: false,
-	confirmed: false,
 };
 
 export const NFT_METADATA_LIST = [

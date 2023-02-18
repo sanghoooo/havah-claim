@@ -8,6 +8,7 @@ import new_link_white from "../assets/icons/new_link_white.svg";
 import new_link_black from "../assets/icons/new_link_black.svg";
 import new_link_mint from "../assets/icons/new_link_mint.svg";
 import new_link_discord from "../assets/icons/new_link_discord.svg";
+import new_link_twitter from "../assets/icons/new_link_twitter.svg";
 import arrow_bottom_white from "../assets/icons/arrow_bottom_white.svg";
 import arrow_bottom_black from "../assets/icons/arrow_bottom_black.svg";
 import arrow_bottom_mint from "../assets/icons/arrow_bottom_mint.svg";
@@ -20,6 +21,10 @@ import bad_mint from "../assets/icons/bad_mint.svg";
 import logo_white from "../assets/icons/logo_white.svg";
 import logo_black from "../assets/icons/logo_black.svg";
 import logo_mint from "../assets/icons/logo_mint.svg";
+import refresh_white from "../assets/icons/refresh_white.svg";
+import refresh_black from "../assets/icons/refresh_black.svg";
+import refresh_mint from "../assets/icons/refresh_mint.svg";
+import { classBind } from "./util";
 
 const src = {
 	download_white,
@@ -32,6 +37,7 @@ const src = {
 	new_link_black,
 	new_link_mint,
 	new_link_discord,
+	new_link_twitter,
 	arrow_bottom_white,
 	arrow_bottom_black,
 	arrow_bottom_mint,
@@ -44,14 +50,28 @@ const src = {
 	logo_white,
 	logo_black,
 	logo_mint,
+	refresh_black,
+	refresh_white,
+	refresh_mint,
 };
 
-const Icon = ({ name, black, white, mint, discord, size = 40, onClick = () => {} }) => {
-	const style = { width: size, height: size };
+const Icon = ({
+	className,
+	name,
+	black,
+	white,
+	mint,
+	discord,
+	twitter,
+	size = 40,
+	css,
+	onClick = () => {},
+}) => {
+	const style = { width: size, height: size, ...css };
 	if (black)
 		return (
 			<img
-				className="black"
+				className={classBind(className, "black")}
 				src={src[`${name}_black`]}
 				style={style}
 				onClick={onClick}
@@ -61,7 +81,7 @@ const Icon = ({ name, black, white, mint, discord, size = 40, onClick = () => {}
 	if (white)
 		return (
 			<img
-				className="white"
+				className={classBind(className, "white")}
 				src={src[`${name}_white`]}
 				style={style}
 				onClick={onClick}
@@ -71,7 +91,7 @@ const Icon = ({ name, black, white, mint, discord, size = 40, onClick = () => {}
 	if (mint)
 		return (
 			<img
-				className="mint"
+				className={classBind(className, "mint")}
 				src={src[`${name}_mint`]}
 				style={style}
 				onClick={onClick}
@@ -81,8 +101,18 @@ const Icon = ({ name, black, white, mint, discord, size = 40, onClick = () => {}
 	if (discord)
 		return (
 			<img
-				className="discord"
+				className={classBind(className, "discord")}
 				src={src[`${name}_discord`]}
+				style={style}
+				onClick={onClick}
+				alt={name}
+			/>
+		);
+	if (twitter)
+		return (
+			<img
+				className={classBind(className, "twitter")}
+				src={src[`${name}_twitter`]}
 				style={style}
 				onClick={onClick}
 				alt={name}
@@ -117,4 +147,8 @@ export const Bad = (props) => {
 
 export const Logo = (props) => {
 	return Icon({ name: "logo", ...props });
+};
+
+export const Refresh = (props) => {
+	return Icon({ name: "refresh", ...props });
 };

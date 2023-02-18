@@ -12,6 +12,23 @@ export const accountState = atom({
 	effects: [persistAtom],
 });
 
+export const discordCodeState = atom({
+	key: "discordCodeState",
+	default: "",
+});
+
+export const discordAccessTokenState = atom({
+	key: "discordAccessTokenState",
+	default: "",
+});
+
+export const emailState = atom({
+	key: "emailState",
+	default: {},
+});
+
+/////
+
 export const congratulatedState = atom({
 	key: "congratulatedState",
 	default: false,

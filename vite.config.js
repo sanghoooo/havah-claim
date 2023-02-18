@@ -6,6 +6,10 @@ export default defineConfig({
 	plugins: [react()],
 	server: {
 		port: 3000,
+		proxy: {
+			"/email-valid": { target: "https://dev-openapi.havah.io", changeOrigin: true },
+			"/reward": { target: "https://event.vega.havah.io", changeOrigin: true },
+		},
 	},
 	build: {
 		minify: true,

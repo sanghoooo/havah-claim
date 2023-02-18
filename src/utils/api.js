@@ -1,113 +1,154 @@
-import { EVENT_SERVER, IS_LOCAL, IS_WEBAPP, MOCK_SERVER } from "./const";
+import {
+	DISCORD_CLIENT_ID,
+	DISCORD_CLIENT_SECRET,
+	EMAIL_SERVER,
+	EVENT_SERVER,
+	IS_DEV,
+	IS_LOCAL,
+	IS_WEBAPP,
+	MOCK_SERVER,
+	X_CLIENT_ID,
+	X_CLIENT_SECRET,
+} from "./const";
 import axios from "axios";
 import queryString from "query-string";
 
-const URL = IS_LOCAL || IS_WEBAPP ? MOCK_SERVER : EVENT_SERVER;
-
-export const eventStatus = async () => {
+export const getDiscordOauthToken = async (code) => {
 	try {
-		const { data } = await axios.get(`${URL}/v1/event/status`);
-		return data;
-	} catch (e) {
+		const url = `https://discord.com/api/oauth2/token`;
+		const { data } = await axios({
+			url,
+			method: "POST",
+			headers: { "content-type": "application/x-www-form-urlencoded" },
+			data: queryString.stringify({
+				code,
+				client_id: DISCORD_CLIENT_ID,
+				client_secret: DISCORD_CLIENT_SECRET,
+				grant_type: "authorization_code",
+				redirect_uri: window.location.origin,
+			}),
+		});
+
 		return {
-			result: true,
+			data,
+		};
+	} catch (e) {
+		console.error(e);
+		return {
+			error: true,
 		};
 	}
 };
 
-export const checkAddress = async (address) => {
+export const getUsersGuilds = async (accessToken) => {
 	try {
-		const { data } = await axios.get(`${URL}/v1/event/check?addr=${address}`);
-		return data;
-	} catch (e) {
+		const url = `https://discord.com/api/v9/users/@me/guilds`;
+		const { data } = await axios({
+			url,
+			method: "GET",
+			headers: { Authorization: `Bearer ${accessToken}` },
+		});
+
 		return {
-			error: -1,
+			data,
+		};
+	} catch (e) {
+		console.error(e);
+		return {
+			error: true,
 		};
 	}
 };
 
-export const checkEmail = async (email) => {
+export const getUserMe = async (accessToken) => {
 	try {
-		const { data } = await axios.get(`${URL}/v1/event/check?email=${email}`);
-		const { result, error } = data;
-		return { result, error };
-	} catch (e) {
+		const url = `https://discord.com/api/v9/users/@me`;
+		const { data } = await axios({
+			url,
+			method: "GET",
+			headers: { Authorization: `Bearer ${accessToken}` },
+		});
+
 		return {
-			error: -1,
+			data,
+		};
+	} catch (e) {
+		console.error(e);
+		return {
+			error: true,
 		};
 	}
 };
 
-export const hvhAddress = async (address) => {
+export const postSendToken = async (email) => {
 	try {
-		const { data } = await axios.get(`${URL}/v1/event/hvh?addr=${address}`);
-		const { result, error } = data;
-		return { result, error };
-	} catch (e) {
+		const { data } = await axios.post(
+			`/email-valid/send-token`,
+			{
+				email,
+			},
+			{
+				headers: {
+					"X-CLIENT-ID": X_CLIENT_ID,
+					"X-CLIENT-SECRET": X_CLIENT_SECRET,
+				},
+			}
+		);
+
 		return {
-			error: -1,
+			data,
+		};
+	} catch (e) {
+		const { code } = e.response.data;
+		return {
+			error: code,
 		};
 	}
 };
 
-export const getReferral = async (address) => {
-	const { referral } = await checkAddress(address);
-	return referral || "";
+export const postCheckToken = async (email, token) => {
+	try {
+		const { data } = await axios.post(
+			`/email-valid/check-token`,
+			{
+				email,
+				token,
+			},
+			{
+				headers: {
+					"X-CLIENT-ID": X_CLIENT_ID,
+					"X-CLIENT-SECRET": X_CLIENT_SECRET,
+				},
+			}
+		);
+
+		return {
+			data,
+		};
+	} catch (e) {
+		const { code } = e.response.data;
+		return {
+			error: code,
+		};
+	}
 };
 
-export const getEventComplete = async (addr, referral, email) => {
-	const stringified = queryString.stringify(
+export const postRequestClaim = async ({ address, discord, twitter, email, verificationCode }) => {
+	const { data } = await axios.post(
+		`/reward/v1/request/claim`,
 		{
-			addr,
-			referral,
+			address,
+			discord,
+			twitter,
 			email,
+			verificationCode,
 		},
 		{
-			skipNull: true,
-			skipEmptyString: true,
+			headers: {
+				"Content-Type": "application/json",
+			},
 		}
 	);
-	try {
-		const { data } = await axios.get(`${URL}/v1/event/complete?${stringified}`);
-		return data;
-	} catch (e) {
-		return {
-			error: -1,
-		};
-	}
-};
 
-export const getDiscordOauthToken = async (code) => {
-	// const body = queryString.stringify({
-	// 	client_id: "1075705706356936796",
-	// 	client_secret: "Ug228F8e3p_HRVxM7xRXebibu0t6ip8s",
-	// 	grant_type: "authorization_code",
-	// 	redirect_uri: window.location.href,
-	// 	code,
-	// });
-
-	// const response = await axios.post(uri, body, {
-	// 	headers: {
-	// 		"Content-Type": "application/x-www-form-urlencoded",
-	// 	},
-	// });
-
-	// console.log(response);
-
-	const url = `https://discord.com/api/oauth2/token`;
-	const response = await axios({
-		url,
-		method: "POST",
-		headers: { "content-type": "application/x-www-form-urlencoded" },
-		data: queryString.stringify({
-			client_id: "1075705706356936796",
-			client_secret: "Ug228F8e3p_HRVxM7xRXebibu0t6ip8s",
-			grant_type: "authorization_code",
-			code,
-			redirect_uri: "http://localhost:3000",
-			scope: "identify",
-		}),
-	});
-
-	console.log(response);
+	console.log(data);
 };

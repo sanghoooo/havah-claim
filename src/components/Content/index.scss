@@ -261,7 +261,7 @@
 							display: inline-block;
 							border: 1px solid $mint_light;
 							border-radius: 3px;
-							padding: 20px;
+							padding: 5px 10px;
 
 							> p {
 								font-size: 16px;
@@ -269,13 +269,14 @@
 								font-weight: 500;
 							}
 
+							> ul,
 							> ol {
-								margin: 10px 0 0;
-								padding: 0 0 0 30px;
+								padding: 0 15px 0 20px;
 
 								> li {
 									font-size: 14px;
 									color: $white;
+									padding-left: 2px;
 
 									&:not(:last-of-type) {
 										margin-bottom: 7px;
@@ -321,6 +322,7 @@
 
 						> .circle {
 							border-style: solid;
+							padding-top: 0px;
 						}
 					}
 
@@ -343,6 +345,28 @@
 							}
 						}
 					}
+				}
+			}
+		}
+	}
+
+	.discord {
+		&.highlight {
+			> div.title {
+				color: $discord_purple !important;
+				> .circle {
+					border-color: $discord_purple !important;
+				}
+			}
+		}
+	}
+
+	.twitter {
+		&.highlight {
+			> div.title {
+				color: $twitter_sky !important;
+				> .circle {
+					border-color: $twitter_sky !important;
 				}
 			}
 		}

@@ -1,73 +1,118 @@
-import { useCallback, useEffect, useState } from "react";
-import { checkEmail } from "../../utils/api";
-import { ERROR_MESSAGE } from "../../utils/const";
-import { getHash, validateEmail } from "../../utils/util";
+import { useCallback, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
+import { useSetRecoilState } from "recoil";
+import { emailState } from "../../recoil/atom";
+import { postCheckToken, postSendToken } from "../../utils/api";
+import { validateEmail } from "../../utils/util";
 import Button from "../Button";
 import Input from "../Input";
 
-function EmailVerifier({ connected, completed, loading, failure, success, setCubed }) {
-	const [value, setValue] = useState("");
-	const [errorMessage, setErrorMessage] = useState("");
+function EmailVerifier({ completed, changeCompleted }) {
+	const [emailValue, setEmailValue] = useState("");
+	const [emailError, setEmailError] = useState("");
+	const [sendSuccess, setSendSuccess] = useState(false);
+	const [codeValue, setCodeValue] = useState("");
+	const setEmail = useSetRecoilState(emailState);
 
-	useEffect(() => {
-		const hex = getHash(value);
-		if (hex === "1007cfd2c2844a2f0dabdb539617bd12f52f367f37cb761dbad1e86773b7abd1") {
-			setCubed(true);
-		} else if (hex === "00dad3c481f548278b827795d1cb3c0dd1189bdb6837fb7ffa0475010d6d5c74") {
-			setCubed(false);
-		}
-	}, [value, setCubed]);
-
-	useEffect(() => {
-		if (!connected) {
-			setValue("");
-		}
-	}, [connected]);
-
-	const verify = useCallback(
+	const sendCode = useCallback(
 		async (value) => {
 			if (!value) {
-				setErrorMessage("Please enter your email address.");
+				setEmailError("Please enter your email address.");
 				return;
 			}
 
 			if (!validateEmail(value)) {
-				setErrorMessage("Please check your email address.");
+				setEmailError("Please check your email address.");
 				return;
 			}
 
-			loading();
+			changeCompleted({ email: undefined });
 
-			const { error } = await checkEmail(value);
+			const { data, error } = await postSendToken(value);
 
-			if (error) {
-				failure();
-				setErrorMessage(ERROR_MESSAGE[error]);
+			if (error || data.sendMailStatus !== "SUCCESS") {
+				changeCompleted({ email: false });
+				toast.error("Failed to send code.");
 				return;
 			}
 
-			success(value);
+			setSendSuccess(true);
+			toast.success("Code sent successfully.");
 		},
-		[loading, failure, success]
+		[changeCompleted]
 	);
+
+	const checkCode = useCallback(
+		async (email, code) => {
+			const { data, error } = await postCheckToken(email, code);
+
+			if (error || data.status !== "SUCCESS") {
+				changeCompleted({ email: false });
+				toast.error("Failed to verify code.");
+				return;
+			}
+
+			changeCompleted({ email: true });
+			toast.success("Code verified successfully.");
+			setEmail({
+				email,
+				code,
+			});
+		},
+		[changeCompleted]
+	);
+
+	const buttonTitle = useMemo(() => {
+		if (completed) {
+			return "VERIFIED";
+		} else if (sendSuccess) {
+			return "VERIFY CODE";
+		} else {
+			return "SEND CODE";
+		}
+	}, [completed, sendSuccess]);
 
 	return (
 		<>
 			<Input
+				style={{
+					width: 400,
+				}}
 				label="Email"
-				value={value}
-				disabled={completed}
-				onChange={(e) => setValue(e.target.value)}
-				error={errorMessage}
-				resetError={() => setErrorMessage("")}
-				onEnter={verify}
+				value={emailValue}
+				disabled={sendSuccess || completed}
+				onChange={(e) => setEmailValue(e.target.value)}
+				error={emailError}
+				resetError={() => setEmailError("")}
+				onEnter={() => sendCode(emailValue)}
+				resend={sendSuccess ? () => sendCode(emailValue) : undefined}
+				resendDisabled={completed}
 			/>
+			{sendSuccess && (
+				<Input
+					style={{
+						width: 260,
+						marginLeft: 10,
+					}}
+					label="Code"
+					value={codeValue}
+					disabled={completed}
+					onChange={(e) => setCodeValue(e.target.value)}
+					onEnter={() => checkCode(emailValue, codeValue)}
+				/>
+			)}
 			<Button
 				mint
 				filled
-				onClick={() => verify(value)}
-				disabled={completed !== false}
-				title={completed ? "VERIFIED" : "VERIFY"}
+				disabled={completed}
+				onClick={() => {
+					if (sendSuccess) {
+						checkCode(emailValue, codeValue);
+					} else {
+						sendCode(emailValue);
+					}
+				}}
+				title={buttonTitle}
 			/>
 		</>
 	);

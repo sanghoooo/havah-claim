@@ -1,33 +1,43 @@
 @import "../common.scss";
 
 .lds-dual-ring {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
+	display: inline-block;
+	width: 22px;
+	height: 22px;
 
-    &.black::after {
-        border: 3px solid #000;
-        border-color: #000 transparent #000 transparent;
-    }
+	&.black::after {
+		border: 3px solid #000;
+		border-color: #000 transparent #000 transparent;
+	}
 }
 
 .lds-dual-ring::after {
-    content: " ";
-    display: block;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 3px solid $mint_light;
-    border-color: $mint_light transparent $mint_light transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
+	content: " ";
+	display: block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 3px solid $mint_light;
+	border-color: $mint_light transparent $mint_light transparent;
+	animation: lds-dual-ring 1.2s linear infinite;
+}
+
+.lds-dual-ring.discord::after {
+	border: 3px solid $discord_purple !important;
+	border-color: $discord_purple transparent $discord_purple transparent !important;
+}
+
+.lds-dual-ring.twitter::after {
+	border: 3px solid $twitter_sky !important;
+	border-color: $twitter_sky transparent $twitter_sky transparent !important;
 }
 
 @keyframes lds-dual-ring {
-    0% {
-        transform: rotate(0deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
 
-    100% {
-        transform: rotate(360deg);
-    }
+	100% {
+		transform: rotate(360deg);
+	}
 }

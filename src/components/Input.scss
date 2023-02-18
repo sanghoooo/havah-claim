@@ -1,181 +1,207 @@
 @import "../common.scss";
 
 .Input {
-    display: inline-block;
-    height: 60px;
-    width: 500px;
+	display: inline-block;
+	height: 60px;
+	width: 500px;
 
-    &,
-    * {
-        transition: 0.15s;
-    }        
+	&,
+	* {
+		transition: 0.15s;
+	}
 
-    &.disabled {
-        &,
-        * {
-            pointer-events: none;
-        }
-    }
+	&.disabled {
+		* {
+			pointer-events: none;
+		}
 
-    >div.decorator {
-        $radius: 3px;
+		div.border {
+			$border: 1px solid #8e9297 !important;
 
-        position: absolute;
-        background-color: $dark_black_2;
-        display: flex;
-        height: 100%;
-        width: 100%;
-        border-radius: $radius;
+			&.left {
+				border: $border;
+				border-right: unset !important;
+			}
 
-        >div.border {
-            &.left {
-                border-top-left-radius: $radius;
-                border-bottom-left-radius: $radius;
-                width: 20px;
-            }
+			&.bottom {
+				border-bottom: $border;
 
-            &.bottom {
-                font-size: 0;
+				> div.label {
+					color: #8e9297 !important;
+				}
+			}
 
-                >div.label {
-                    display: inline-block;
-                    font-weight: 500;
-                    color: $grey_1;
-                    font-size: 16px;
-                    position: relative;
-                    top: 50%;
-                    transform: translateY(-50%);
-                }
-            }
+			&.right {
+				border: $border;
+				border-left: unset !important;
+			}
+		}
+	}
 
-            &.right {
-                flex: 1;
-                border-top-right-radius: $radius;
-                border-bottom-right-radius: $radius;
-            }
-        }
-    }
+	.refresh {
+		@include button_action();
+		z-index: 3;
+	}
 
-    >input {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        padding: 0 20px;
-        outline: none;
-        border: none;
-        background-color: unset;
-        color: $white;
-        font-weight: 700;
-        font-size: 16px;
+	> div.decorator {
+		$radius: 3px;
 
-        &.invisible {
-            display: none;
-        }
-    }
+		position: absolute;
+		background-color: $dark_black_2;
+		display: flex;
+		height: 100%;
+		width: 100%;
+		border-radius: $radius;
 
-    >p {
-        position: absolute;
-        bottom: 0;
+		> div.border {
+			&.left {
+				border-top-left-radius: $radius;
+				border-bottom-left-radius: $radius;
+				width: 20px;
+			}
 
-        color: $error_red;
-        padding-top: 10px;
-        font-size: 13px;
-        transform: translateY(100%);
-    }
+			&.bottom {
+				font-size: 0;
 
-    &:not(.focused) {
-        cursor: pointer;
+				> div.label {
+					display: inline-block;
+					font-weight: 500;
+					color: $grey_1;
+					font-size: 16px;
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+			}
 
-        &.error {
-            >div.decorator {
-                border: 1px solid $error_red;
-    
-                >div.border {
-                    >div.border {
-                        $border: 1px solid $error_red;
-        
-                        &.left {
-                            border: $border;
-                            border-right: unset;
-                        }
-        
-                        &.bottom {
-                            border-top: $border;
-                            border-bottom: $border;
-        
-                            >div.label {
-                                color: $error_red;
-                            }
-                        }
-        
-                        &.right {
-                            border: $border;
-                            border-left: unset;
-                        }
-                    }
-                }
-            }
-        }
-    }
+			&.right {
+				flex: 1;
+				border-top-right-radius: $radius;
+				border-bottom-right-radius: $radius;
+			}
+		}
+	}
 
-    &.focused {
-        >div.decorator {
-            background-color: unset;
+	> input {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		padding: 0 20px;
+		outline: none;
+		border: none;
+		background-color: unset;
+		color: $white;
+		font-weight: 700;
+		font-size: 16px;
 
-            >div.border {
-                $border: 1px solid $mint_light;
+		&.invisible {
+			display: none;
+		}
+	}
 
-                &.left {
-                    width: 10px;
-                    border: $border;
-                    border-right: unset;
-                }
+	> p {
+		position: absolute;
+		bottom: 0;
 
-                &.bottom {
-                    border-bottom: $border;
+		color: $error_red;
+		padding-top: 10px;
+		font-size: 13px;
+		transform: translateY(100%);
+	}
 
-                    >div.label {
-                        color: $mint_light;
-                        font-size: 12px;
-                        padding: 0 10px;
-                        top: 0;
-                    }
-                }
+	&:not(.focused) {
+		cursor: pointer;
 
-                &.right {
-                    border: $border;
-                    border-left: unset;
-                }
-            }
-        }
+		&.error {
+			> div.decorator {
+				border: 1px solid $error_red;
 
-        &.error {
-            >div.decorator {
-                background-color: unset;
-    
-                >div.border {
-                    $border: 1px solid $error_red;
-    
-                    &.left {
-                        border: $border;
-                        border-right: unset;
-                    }
-    
-                    &.bottom {
-                        border-bottom: $border;
-    
-                        >div.label {
-                            color: $error_red;
-                            font-size: 12px;
-                        }
-                    }
-    
-                    &.right {
-                        border: $border;
-                        border-left: unset;
-                    }
-                }
-            }
-        }
-    }
+				> div.border {
+					> div.border {
+						$border: 1px solid $error_red;
+
+						&.left {
+							border: $border;
+							border-right: unset;
+						}
+
+						&.bottom {
+							border-top: $border;
+							border-bottom: $border;
+
+							> div.label {
+								color: $error_red;
+							}
+						}
+
+						&.right {
+							border: $border;
+							border-left: unset;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&.focused {
+		> div.decorator {
+			background-color: unset;
+
+			> div.border {
+				$border: 1px solid $mint_light;
+
+				&.left {
+					width: 10px;
+					border: $border;
+					border-right: unset;
+				}
+
+				&.bottom {
+					border-bottom: $border;
+
+					> div.label {
+						color: $mint_light;
+						font-size: 12px;
+						padding: 0 10px;
+						top: 0;
+					}
+				}
+
+				&.right {
+					border: $border;
+					border-left: unset;
+				}
+			}
+		}
+
+		&.error {
+			> div.decorator {
+				background-color: unset;
+
+				> div.border {
+					$border: 1px solid $error_red;
+
+					&.left {
+						border: $border;
+						border-right: unset;
+					}
+
+					&.bottom {
+						border-bottom: $border;
+
+						> div.label {
+							color: $error_red;
+							font-size: 12px;
+						}
+					}
+
+					&.right {
+						border: $border;
+						border-left: unset;
+					}
+				}
+			}
+		}
+	}
 }

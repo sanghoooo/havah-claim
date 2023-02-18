@@ -12,10 +12,14 @@ function Step({
 	form,
 	formCompleted,
 	last,
+	className,
+	discord,
+	twitter,
 }) {
 	return (
 		<div
 			className={classBind(
+				className,
 				"step",
 				last && "last",
 				highlight && "highlight",
@@ -24,10 +28,25 @@ function Step({
 		>
 			{!last && <div className="line"></div>}
 			<div className="title">
-				<div className="circle">
-					{completed === false && index}
-					{completed === undefined && <Loader />}
-					{completed === true && <Confirm white />}
+				<div
+					className="circle"
+					style={{
+						display: "inline-flex",
+						alignContent: "center",
+						justifyContent: "center",
+					}}
+				>
+					<span
+						style={{
+							position: "relative",
+							top: completed === false ? 1 : 0,
+							lineHeight: 0,
+						}}
+					>
+						{completed === false && index}
+						{completed === undefined && <Loader discord={discord} twitter={twitter} />}
+						{completed === true && <Confirm white />}
+					</span>
 				</div>
 				{completed && titleCompleted ? titleCompleted : title}
 			</div>
