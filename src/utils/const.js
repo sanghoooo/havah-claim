@@ -3,6 +3,9 @@ import logo_small from "../assets/logo_small.svg";
 import mobile from "is-mobile";
 
 export const IS_DEV = !window.location.origin.includes("havah.io");
+export const IS_LOCAL = ["localhost", "127.0.0.1"].some((host) =>
+	window.location.origin.includes(host)
+);
 
 export const EMAIL_SERVER = IS_DEV ? "https://dev-openapi.havah.io" : "https://openapi.havah.io";
 export const X_CLIENT_ID = IS_DEV ? "dev" : "";
@@ -31,8 +34,6 @@ export const INITIAL_CONTENTS_COMPLETED = {
 };
 
 //////////
-
-export const IS_LOCAL = true;
 
 export const MOCK_SERVER = "https://b9fd7648-f64f-4bb9-8213-d7bf2f9723ae.mock.pstmn.io";
 export const EVENT_SERVER = "https://event.vega.havah.io";

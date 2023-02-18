@@ -34,9 +34,11 @@ export async function sendTransaction(data) {
 }
 
 export async function connectWallet() {
-	return {
-		address: "hx13cef81ed4c1dc077ccabf9661aa44350cdabdd4",
-	};
+	if (IS_LOCAL) {
+		return {
+			address: "hx13cef81ed4c1dc077ccabf9661aa44350cdabdd4",
+		};
+	}
 
 	try {
 		const { ok, body, address } = await window.havah.connect();
