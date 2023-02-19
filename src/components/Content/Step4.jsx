@@ -8,7 +8,7 @@ export default function Step4({ previous, completed, changeCompleted }) {
 			highlight={previous && !completed}
 			completed={completed}
 			title="Verify Email"
-			description={<>Verify email registered on HAVAH.io</>}
+			description={<>Verify the email associated with your HAVAH.io account.</>}
 			form={<EmailVerifier completed={completed} changeCompleted={changeCompleted} />}
 		/>
 	);

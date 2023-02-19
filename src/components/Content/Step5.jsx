@@ -52,7 +52,7 @@ export default function Step5({ previous, completed, changeCompleted }) {
 					<Copy white size="1.1em" onClick={() => copyData(txHash)} />
 				</>
 			}
-			description={<>Claim HAVAH using the informations below.</>}
+			description={<>Click the button below to claim your HAVAH reward.</>}
 			form={
 				<>
 					{overall && (

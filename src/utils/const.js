@@ -90,7 +90,7 @@ export const SCAN_ADDRESS_LINK = "https://scan.vega.havah.io/address/";
 export const SCAN_TX_HASH_LINK = "https://scan.vega.havah.io/txn/";
 export const SIGN_UP_LINK = "https://havah.io/?PageName=signup";
 export const MITTER_LINK = "https://mitter.vega.havah.io/bridge/nft";
-export const COPYRIGHT = "Copyright © 2022 WEB3 SOLUTIONS PTE. LTD. All Rights Reserved.";
+export const COPYRIGHT = "Copyright © 2023 WEB3 SOLUTIONS PTE. LTD. All Rights Reserved.";
 export const MINIMUM_BALANCE = 10;
 
 export const IS_MOBILE = mobile();
