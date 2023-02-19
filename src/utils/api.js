@@ -1,15 +1,4 @@
-import {
-	DISCORD_CLIENT_ID,
-	DISCORD_CLIENT_SECRET,
-	EMAIL_SERVER,
-	EVENT_SERVER,
-	IS_DEV,
-	IS_LOCAL,
-	IS_WEBAPP,
-	MOCK_SERVER,
-	X_CLIENT_ID,
-	X_CLIENT_SECRET,
-} from "./const";
+import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, X_CLIENT_ID, X_CLIENT_SECRET } from "./const";
 import axios from "axios";
 import queryString from "query-string";
 
