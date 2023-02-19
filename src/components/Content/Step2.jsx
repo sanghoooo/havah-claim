@@ -37,7 +37,7 @@ export default function Step2({ previous, completed, changeCompleted }) {
 						discord
 						disabled={completed}
 						onClick={() => {
-							window.open(DISCORD_LOGIN_LINK);
+							window.open(DISCORD_LOGIN_LINK, "_self");
 						}}
 						title={
 							<>

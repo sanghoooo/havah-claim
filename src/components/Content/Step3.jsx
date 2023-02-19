@@ -40,7 +40,7 @@ export default function Step3({ previous, completed, changeCompleted }) {
 								code_challenge: "test",
 							});
 
-							window.open(authUrl);
+							window.open(authUrl, "_self");
 						}}
 						title={
 							<>

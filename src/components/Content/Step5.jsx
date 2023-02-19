@@ -21,6 +21,7 @@ export default function Step5({ previous, completed, changeCompleted }) {
 	const account = useRecoilValue(accountState);
 	const email = useRecoilValue(emailState);
 	const discordAccessToken = useRecoilValue(discordAccessTokenState);
+	const twitterAccessToken = useRecoilValue(twitterAccessTokenState);
 	const { scan } = useWallet();
 
 	const copyData = useCallback((address) => {
@@ -30,11 +31,7 @@ export default function Step5({ previous, completed, changeCompleted }) {
 
 	const overall = useMemo(() => {
 		return (
-			account.address &&
-			email.email &&
-			email.code &&
-			discordAccessToken &&
-			twitterAccessTokenState
+			account.address && email.email && email.code && discordAccessToken && twitterAccessToken
 		);
 	}, [account, email]);
 
@@ -86,18 +83,20 @@ export default function Step5({ previous, completed, changeCompleted }) {
 							const { data, error } = await postRequestClaim({
 								address: glory.address || account.address,
 								discord: glory.discord || discordAccessToken,
-								twitter: glory.twitter || twitterAccessTokenState,
+								twitter: glory.twitter || twitterAccessToken,
 								email: glory.email || email.email,
 								verificationCode: glory.verificationCode || email.code,
 							});
 
 							if (error) {
+								changeCompleted({ claim: false });
 								toast.error(CLAIM_ERROR[9999]);
 								return;
 							}
 
 							const { retCode, txHash } = data;
 							if (retCode !== 0) {
+								changeCompleted({ claim: false });
 								toast.error(CLAIM_ERROR[retCode]);
 								return;
 							}
@@ -107,6 +106,9 @@ export default function Step5({ previous, completed, changeCompleted }) {
 							if (txHash) {
 								setTxHash(txHash);
 							}
+
+							changeCompleted({ claim: true });
+							toast.error("Claim HAVAH successfully.");
 						}}
 						disabled={completed === true}
 						title={completed ? "CONGRATULATION!" : "CLAIM"}
