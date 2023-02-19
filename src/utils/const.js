@@ -2,7 +2,8 @@ import medium from "../assets/medium.svg";
 import logo_small from "../assets/logo_small.svg";
 import mobile from "is-mobile";
 
-export const IS_DEV = !window.location.origin.includes("havah.io");
+export const IS_PRD = window.location.origin.includes("havah.io");
+export const IS_DEV = !IS_PRD;
 export const IS_LOCAL = ["localhost", "127.0.0.1"].some((host) =>
 	window.location.origin.includes(host)
 );
@@ -19,6 +20,10 @@ export const HAVAH_GUILD_ID = "988047406266466366";
 export const DISCORD_SERVER = "https://discord.gg/havahofficial";
 export const HAVAH_FOLLOW_LINK =
 	"https://twitter.com/intent/follow?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Efollow%7Ctwgr%5EHAVAHofficial&screen_name=HAVAHofficial";
+
+export const SCAN_HOST = IS_PRD ? `https://scan.havah.io` : `https://scan.vega.havah.io`;
+export const SCAN_ADDRESS_LINK = `${SCAN_HOST}/address/`;
+export const SCAN_TX_HASH_LINK = `${SCAN_HOST}/txn/`;
 
 export const EMAIL_ERROR = {
 	E001: "INVALID_EMAIL",
@@ -86,8 +91,6 @@ export const EXTERNAL = {
 export const INSTALL_LINK =
 	"https://chrome.google.com/webstore/detail/havah-wallet/cnncmdhjacpkmjmkcafchppbnpnhdmon";
 export const WEBSITE_LINK = "https://havah.io";
-export const SCAN_ADDRESS_LINK = "https://scan.vega.havah.io/address/";
-export const SCAN_TX_HASH_LINK = "https://scan.vega.havah.io/txn/";
 export const SIGN_UP_LINK = "https://havah.io/?PageName=signup";
 export const MITTER_LINK = "https://mitter.vega.havah.io/bridge/nft";
 export const COPYRIGHT = "Copyright © 2023 WEB3 SOLUTIONS PTE. LTD. All Rights Reserved.";

@@ -52,6 +52,7 @@ export default function Step3({ previous, completed, changeCompleted }) {
 					<Button
 						filled
 						twitter
+						disabled={completed}
 						onClick={async () => {
 							if (!twitterAccessToken) {
 								toast.error("Please authorize again.");
