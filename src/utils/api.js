@@ -72,7 +72,7 @@ export const getUserMe = async (accessToken) => {
 export const postSendToken = async (email) => {
 	try {
 		const { data } = await axios.post(
-			`/email-valid/send-token`,
+			`${EMAIL_SERVER}/email-valid/send-token`,
 			{
 				email,
 			},
