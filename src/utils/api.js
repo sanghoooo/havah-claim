@@ -135,7 +135,7 @@ export const postCheckToken = async (email, token) => {
 
 export const postRequestClaim = async ({ address, discord, twitter, email, verificationCode }) => {
 	const { data } = await axios.post(
-		`/reward/v1/request/claim`,
+		`/reward/v1/claim`,
 		{
 			address,
 			discord,

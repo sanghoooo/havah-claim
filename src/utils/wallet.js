@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { accountState } from "../recoil/atom";
-import { INSTALL_LINK, SCAN_ADDRESS_LINK, SCAN_TX_HASH_LINK } from "./const";
+import { INSTALL_LINK, IS_LOCAL, SCAN_ADDRESS_LINK, SCAN_TX_HASH_LINK } from "./const";
 import IconService from "icon-sdk-js";
 import toast from "react-hot-toast";
 
