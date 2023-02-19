@@ -24,8 +24,9 @@ export default function Step5({ previous, completed, changeCompleted }) {
 	const twitterAccessToken = useRecoilValue(twitterAccessTokenState);
 	const { scan } = useWallet();
 
-	const copyData = useCallback((address) => {
-		copy(address);
+	const copyData = useCallback((txHash) => {
+		console.log(txHash);
+		copy(txHash);
 		toast.success("Copied successfully.");
 	}, []);
 
@@ -94,7 +95,7 @@ export default function Step5({ previous, completed, changeCompleted }) {
 								return;
 							}
 
-							const { retCode, txHash } = data;
+							const { retCode, result } = data;
 							if (retCode !== 0) {
 								changeCompleted({ claim: false });
 								toast.error(CLAIM_ERROR[retCode]);
@@ -103,8 +104,8 @@ export default function Step5({ previous, completed, changeCompleted }) {
 
 							await delay(5000);
 
-							if (txHash) {
-								setTxHash(txHash);
+							if (result && result.txHash) {
+								setTxHash(result.txHash);
 							}
 
 							changeCompleted({ claim: true });
