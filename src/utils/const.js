@@ -35,7 +35,6 @@ export const INITIAL_CONTENTS_COMPLETED = {
 
 //////////
 
-export const EVENT_SERVER = "https://event.vega.havah.io";
 export const INSTALL_LINK =
 	"https://chrome.google.com/webstore/detail/havah-wallet/cnncmdhjacpkmjmkcafchppbnpnhdmon";
 export const WEBSITE_LINK = "https://havah.io";
