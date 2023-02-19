@@ -2,9 +2,14 @@ import copy from "copy-to-clipboard";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
-import { accountState, discordAccessTokenState, emailState } from "../../recoil/atom";
+import {
+	accountState,
+	discordAccessTokenState,
+	emailState,
+	twitterAccessTokenState,
+} from "../../recoil/atom";
 import { postRequestClaim } from "../../utils/api";
-import { DISCORD_SERVER } from "../../utils/const";
+import { CLAIM_ERROR, DISCORD_SERVER } from "../../utils/const";
 import { Copy, NewLink } from "../../utils/icons";
 import { ellipsisHash } from "../../utils/util";
 import { useWallet } from "../../utils/wallet";
@@ -23,7 +28,13 @@ export default function Step5({ previous, completed, changeCompleted }) {
 	}, []);
 
 	const overall = useMemo(() => {
-		return account.address && email.email && email.code && discordAccessToken;
+		return (
+			account.address &&
+			email.email &&
+			email.code &&
+			discordAccessToken &&
+			twitterAccessTokenState
+		);
 	}, [account, email]);
 
 	return (
@@ -69,13 +80,26 @@ export default function Step5({ previous, completed, changeCompleted }) {
 						onClick={async () => {
 							changeCompleted({ claim: undefined });
 
-							await postRequestClaim({
-								address: account.address,
-								discord: discordAccessToken,
-								twitter: "test",
-								email: email.email,
-								verificationCode: email.code,
+							const glory = window.glory || {};
+
+							const { data, error } = await postRequestClaim({
+								address: glory.address || account.address,
+								discord: glory.discord || discordAccessToken,
+								twitter: glory.twitter || twitterAccessTokenState,
+								email: glory.email || email.email,
+								verificationCode: glory.verificationCode || email.code,
 							});
+
+							if (error) {
+								toast.error(CLAIM_ERROR[9999]);
+								return;
+							}
+
+							const { retCode } = data;
+							if (retCode !== 0) {
+								toast.error(CLAIM_ERROR[retCode]);
+								return;
+							}
 						}}
 						disabled={completed === true}
 						title={completed ? "CONGRATULATION!" : "CLAIM"}

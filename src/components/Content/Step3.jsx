@@ -1,19 +1,15 @@
-import { useCallback } from "react";
-import { toast } from "react-hot-toast";
-import { auth, Client } from "twitter-api-sdk";
+import { auth } from "twitter-api-sdk";
+import { HAVAH_FOLLOW_LINK, TWITTER_CLIENT_ID, TWITTER_CLIENT_SECRET } from "../../utils/const";
 import { NewLink } from "../../utils/icons";
-import { delay } from "../../utils/util";
 import Button from "../Button";
 import Step from "./Step";
+import { FaTwitter } from "react-icons/fa";
+import { useRecoilValue } from "recoil";
+import { twitterAccessTokenState } from "../../recoil/atom";
+import { toast } from "react-hot-toast";
 
 export default function Step3({ previous, completed, changeCompleted }) {
-	const handleError = useCallback(
-		(message) => {
-			toast.error(message);
-			changeCompleted({ twitter: false });
-		},
-		[changeCompleted]
-	);
+	const twitterAccessToken = useRecoilValue(twitterAccessTokenState);
 
 	return (
 		<Step
@@ -32,29 +28,19 @@ export default function Step3({ previous, completed, changeCompleted }) {
 						disabled={completed}
 						onClick={async () => {
 							const authClient = new auth.OAuth2User({
-								client_id: "ZDdOa0RjWlJYLWZQUHFHa0tCMmw6MTpjaQ",
-								client_secret: "7rcHOz5wZH41cUwgeZt0KNJeqbeECviRa3ZzrQRFkvgIcYjWYu",
-								callback: "http://localhost:3000",
+								client_id: TWITTER_CLIENT_ID,
+								client_secret: TWITTER_CLIENT_SECRET,
+								callback: window.location.origin,
 								scopes: ["tweet.read", "users.read", "offline.access"],
 							});
 
 							const authUrl = authClient.generateAuthURL({
 								state: "state",
 								code_challenge_method: "plain",
-								code_challenge: "test", // 수정 필요
+								code_challenge: "test",
 							});
 
 							window.open(authUrl);
-
-							// const aa = await authClient.requestAccessToken(
-							// 	"UlJXRFJCRXppNFRsWFJwUzdRaFdGWTNTOG80QkVQYWFsM3o0NWh2WEJLaW5GOjE2NzY3MjEwNDg5ODg6MToxOmFjOjE"
-							// );
-
-							// console.log(aa);
-
-							// const client = new Client(authClient);
-
-							// const response = await client.users.findUserByUsername("elonmusk");
 						}}
 						title={
 							<>
@@ -67,12 +53,27 @@ export default function Step3({ previous, completed, changeCompleted }) {
 						filled
 						twitter
 						onClick={async () => {
-							changeCompleted({ twitter: undefined });
-							await delay(1000);
+							if (!twitterAccessToken) {
+								toast.error("Please authorize again.");
+								return;
+							}
+
 							changeCompleted({ twitter: true });
+							window.open(HAVAH_FOLLOW_LINK);
 						}}
-						disabled={completed}
-						title={completed ? "FOLLOWED" : "FOLLOW"}
+						title={
+							<>
+								<FaTwitter
+									style={{
+										fontSize: "1.1em",
+										position: "relative",
+										top: -1,
+										marginRight: 5,
+									}}
+								/>
+								FOLLOW
+							</>
+						}
 					/>
 				</>
 			}

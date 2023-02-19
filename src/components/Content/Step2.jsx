@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import { toast } from "react-hot-toast";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { discordCodeState, discordAccessTokenState } from "../../recoil/atom";
-import { getDiscordOauthToken, getUsersGuilds } from "../../utils/api";
+import { FaDiscord } from "react-icons/fa";
+import { useRecoilState } from "recoil";
+import { discordAccessTokenState } from "../../recoil/atom";
+import { getUsersGuilds } from "../../utils/api";
 import { DISCORD_LOGIN_LINK, EXTERNAL, HAVAH_GUILD_ID } from "../../utils/const";
 import { NewLink } from "../../utils/icons";
 import { delay } from "../../utils/util";
@@ -10,8 +11,7 @@ import Button from "../Button";
 import Step from "./Step";
 
 export default function Step2({ previous, completed, changeCompleted }) {
-	const [discordCode, setDiscordCode] = useRecoilState(discordCodeState);
-	const setDiscordAccessToken = useSetRecoilState(discordAccessTokenState);
+	const [discordAccessToken, setDiscordAccessToken] = useRecoilState(discordAccessTokenState);
 
 	const handleError = useCallback(
 		(message) => {
@@ -49,19 +49,17 @@ export default function Step2({ previous, completed, changeCompleted }) {
 					<Button
 						filled
 						discord
-						disabled={!discordCode || completed}
+						disabled={completed}
 						onClick={async () => {
 							changeCompleted({ discord: undefined });
 
-							const { data, error } = await getDiscordOauthToken(discordCode);
-							if (error) {
-								handleError("Code expired. Please authorize again.");
+							if (!discordAccessToken) {
+								handleError("Please authorize again.");
 								return;
 							}
 
-							const { access_token } = data;
 							const { data: guildData, error: guildError } = await getUsersGuilds(
-								access_token
+								discordAccessToken
 							);
 
 							if (guildError) {
@@ -85,7 +83,19 @@ export default function Step2({ previous, completed, changeCompleted }) {
 								setDiscordAccessToken(access_token);
 							}
 						}}
-						title={completed ? "JOINED" : "JOIN"}
+						title={
+							<>
+								<FaDiscord
+									style={{
+										fontSize: "1.2em",
+										position: "relative",
+										top: -1,
+										marginRight: 5,
+									}}
+								/>
+								{completed ? "JOINED" : "JOIN"}
+							</>
+						}
 					/>
 				</>
 			}

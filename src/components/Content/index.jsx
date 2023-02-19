@@ -1,9 +1,14 @@
 import "./index.scss";
 import Button from "../Button";
 import { ArrowBottom, NewLink } from "../../utils/icons";
-import { useCallback, useRef, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { accountState, discordCodeState } from "../../recoil/atom";
+import { useCallback, useRef } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+	accountState,
+	completedState,
+	discordAccessTokenState,
+	twitterAccessTokenState,
+} from "../../recoil/atom";
 import { INITIAL_CONTENTS_COMPLETED, WEBSITE_LINK } from "../../utils/const";
 import { useEffect } from "react";
 import queryString from "query-string";
@@ -12,13 +17,16 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
+import { getDiscordOauthToken, getTwitterOauthToken } from "../../utils/api";
 
 function Content() {
-	const [completed, setCompleted] = useState(INITIAL_CONTENTS_COMPLETED);
+	const [completed, setCompleted] = useRecoilState(completedState);
 	const scrollRef = useRef();
-	const codeRef = useRef();
+	const discordRef = useRef();
+	const twitterRef = useRef();
 	const account = useRecoilValue(accountState);
-	const setDiscordCode = useSetRecoilState(discordCodeState);
+	const setDiscordAccessToken = useSetRecoilState(discordAccessTokenState);
+	const setTwitterAccessToken = useSetRecoilState(twitterAccessTokenState);
 
 	const changeCompleted = useCallback(
 		(changed) => {
@@ -38,6 +46,31 @@ function Content() {
 		scrollRef.current.scrollIntoView({ behavior: "smooth" });
 	}, []);
 
+	const checkDiscordAccessToken = useCallback(async (code) => {
+		const { data, error } = await getDiscordOauthToken(code);
+		if (error || !data.access_token) {
+			return;
+		}
+
+		discordRef.current.scrollIntoView({ behavior: "smooth" });
+		changeCompleted({ wallet: true });
+		setDiscordAccessToken(data.access_token);
+	}, []);
+
+	const checkTwitterAccessToken = useCallback(async (code) => {
+		const { data, error } = await getTwitterOauthToken(code);
+
+		if (error) {
+			return;
+		}
+
+		twitterRef.current.scrollIntoView({ behavior: "smooth" });
+		changeCompleted({ wallet: true, discord: true });
+		if (data && data.result) {
+			setTwitterAccessToken(data.result.accessToken);
+		}
+	}, []);
+
 	useEffect(() => {
 		const { address } = account;
 
@@ -45,17 +78,15 @@ function Content() {
 			const { search } = window.location;
 			const parsed = queryString.parse(search);
 
-			changeCompleted({
-				...INITIAL_CONTENTS_COMPLETED,
-				wallet: true,
-			});
-
-			if (parsed.code && codeRef.current) {
-				setDiscordCode(parsed.code);
-				codeRef.current.scrollIntoView({ behavior: "smooth" });
+			if (parsed.state && parsed.code && twitterRef) {
+				checkTwitterAccessToken(parsed.code);
+			} else if (parsed.code && discordRef.current) {
+				checkDiscordAccessToken(parsed.code);
+			} else {
+				changeCompleted({ wallet: true });
 			}
 		} else {
-			changeCompleted({ wallet: false });
+			changeCompleted(INITIAL_CONTENTS_COMPLETED);
 		}
 	}, [account]);
 
@@ -92,12 +123,13 @@ function Content() {
 				<div ref={scrollRef} className="scroll_position"></div>
 				<h2>STEPS</h2>
 				<Step1 completed={completed.wallet} changeCompleted={changeCompleted} />
-				<div ref={codeRef} style={{ position: "relative", top: -100 }} />
+				<div ref={discordRef} style={{ position: "relative", top: -100 }} />
 				<Step2
 					previous={completed.wallet}
 					completed={completed.discord}
 					changeCompleted={changeCompleted}
 				/>
+				<div ref={twitterRef} style={{ position: "relative", top: -100 }} />
 				<Step3
 					previous={completed.discord}
 					completed={completed.twitter}

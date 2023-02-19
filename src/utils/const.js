@@ -8,15 +8,17 @@ export const IS_LOCAL = ["localhost", "127.0.0.1"].some((host) =>
 );
 
 export const EMAIL_SERVER = IS_DEV ? "https://dev-openapi.havah.io" : "https://openapi.havah.io";
-export const X_CLIENT_ID = IS_DEV ? "dev" : "";
-export const X_CLIENT_SECRET = IS_DEV ? "dev" : "";
-
+export const X_CLIENT_ID = IS_DEV ? "dev" : "cL7m2onhGiDReOS0";
+export const X_CLIENT_SECRET = IS_DEV ? "dev" : "74523893133904843467523313408055";
 export const DISCORD_CLIENT_ID = "1075705706356936796";
 export const DISCORD_CLIENT_SECRET = "Ug228F8e3p_HRVxM7xRXebibu0t6ip8s";
 export const DISCORD_LOGIN_LINK = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${window.location.origin}&response_type=code&scope=identify%20guilds`;
+export const TWITTER_CLIENT_ID = "ZDdOa0RjWlJYLWZQUHFHa0tCMmw6MTpjaQ";
+export const TWITTER_CLIENT_SECRET = "7rcHOz5wZH41cUwgeZt0KNJeqbeECviRa3ZzrQRFkvgIcYjWYu";
 export const HAVAH_GUILD_ID = "988047406266466366";
-
 export const DISCORD_SERVER = "https://discord.gg/havahofficial";
+export const HAVAH_FOLLOW_LINK =
+	"https://twitter.com/intent/follow?original_referer=http%3A%2F%2Flocalhost%3A3000%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Efollow%7Ctwgr%5EHAVAHofficial&screen_name=HAVAHofficial";
 
 export const EMAIL_ERROR = {
 	E001: "INVALID_EMAIL",
@@ -25,12 +27,58 @@ export const EMAIL_ERROR = {
 	E004: "WRONG_ACCESS",
 };
 
+export const CLAIM_ERROR = {
+	[9999]: "Unknown error.",
+	[1000]: "Already claimed to HAVAH wallet address.",
+	[1001]: "No rewards found.",
+	[1002]: "Too many errors. No more try allowed.",
+	[2000]: "Already claimed to Discord ID",
+	[2001]: "Discord ID not subscribe to HAVAH",
+	[2002]: "Discord ID check error",
+	[3000]: "Already claimed to Twitter ID",
+	[3001]: "Twitter ID not following to HAVAH",
+	[3002]: "Twitter ID check error",
+	[4000]: "Wrong HAVAH account",
+	[4001]: "Already claimed to HAVAH account",
+	[4002]: "HAVAH email auth failure",
+	[4003]: "HAVAH email check error",
+};
+
 export const INITIAL_CONTENTS_COMPLETED = {
 	wallet: false,
 	discord: false,
 	twitter: false,
-	email: false,
+	email: true,
 	claim: false,
+};
+
+export const EXTERNAL = {
+	Intro: {
+		href: "https://havah.io",
+		src: logo_small,
+		back: true,
+		social: true,
+	},
+	Twitter: {
+		href: "https://twitter.com/havahofficial",
+		social: true,
+	},
+	Medium: {
+		href: "https://medium.com/havahofficial",
+		src: medium,
+		social: true,
+	},
+	Discord: {
+		href: "https://discord.com/invite/havahofficial",
+		social: true,
+	},
+	Telegram: {
+		href: "https://t.me/havahofficial",
+		social: true,
+	},
+	Gitbook: {
+		href: "https://docs.havah.io/havah/",
+	},
 };
 
 //////////
@@ -59,35 +107,6 @@ export const FAUCET_ADDRESS = "hx7a64ee31a357f808440a5b75b187983b3d4450c0";
 
 export const MAINNET_NID = "0x100";
 export const TESTNET_NID = "0x101";
-
-export const EXTERNAL = {
-	Intro: {
-		href: "https://intro.havah.io",
-		src: logo_small,
-		back: true,
-		social: true,
-	},
-	Twitter: {
-		href: "https://twitter.com/havahofficial",
-		social: true,
-	},
-	Medium: {
-		href: "https://medium.com/havahofficial",
-		src: medium,
-		social: true,
-	},
-	Discord: {
-		href: "https://discord.com/invite/havahofficial",
-		social: true,
-	},
-	Telegram: {
-		href: "https://t.me/havahofficial",
-		social: true,
-	},
-	Gitbook: {
-		href: "https://docs.havah.io/havah/",
-	},
-};
 
 export const ERROR_MESSAGE = {
 	[-1]: "An error occured. Please try again.",

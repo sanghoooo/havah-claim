@@ -1,9 +1,15 @@
 import { recoilPersist } from "recoil-persist";
 import { atom } from "recoil";
+import { INITIAL_CONTENTS_COMPLETED } from "../utils/const";
 
 const { persistAtom } = recoilPersist({
 	key: "HAVAH_CLAIM_STORAGE",
 	storage: sessionStorage,
+});
+
+export const completedState = atom({
+	key: "completedState",
+	default: INITIAL_CONTENTS_COMPLETED,
 });
 
 export const accountState = atom({
@@ -12,22 +18,23 @@ export const accountState = atom({
 	effects: [persistAtom],
 });
 
-export const discordCodeState = atom({
-	key: "discordCodeState",
-	default: "",
-});
-
 export const discordAccessTokenState = atom({
 	key: "discordAccessTokenState",
 	default: "",
+	effects: [persistAtom],
+});
+
+export const twitterAccessTokenState = atom({
+	key: "twitterAccessTokenState",
+	default: "",
+	effects: [persistAtom],
 });
 
 export const emailState = atom({
 	key: "emailState",
 	default: {},
+	effects: [persistAtom],
 });
-
-/////
 
 export const congratulatedState = atom({
 	key: "congratulatedState",
@@ -42,9 +49,4 @@ export const referralState = atom({
 export const completionTimeState = atom({
 	key: "completionTimeState",
 	default: "",
-});
-
-export const maintenanceState = atom({
-	key: "maintenanceState",
-	default: false,
 });

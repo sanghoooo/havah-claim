@@ -123,21 +123,47 @@ export const postCheckToken = async (email, token) => {
 };
 
 export const postRequestClaim = async ({ address, discord, twitter, email, verificationCode }) => {
-	const { data } = await axios.post(
-		`/reward/v1/claim`,
-		{
-			address,
-			discord,
-			twitter,
-			email,
-			verificationCode,
-		},
-		{
-			headers: {
-				"Content-Type": "application/json",
+	try {
+		const { data } = await axios.post(
+			`https://reward.vega.havah.io/v1/claim`,
+			{
+				address,
+				discord,
+				twitter,
+				email,
+				verificationCode,
 			},
-		}
-	);
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
-	console.log(data);
+		return { data };
+	} catch (e) {
+		console.error(e);
+		return {
+			error: true,
+		};
+	}
+};
+
+export const getTwitterOauthToken = async (code) => {
+	try {
+		const url = `https://reward.vega.havah.io/v1/oauth/twitter/token?code=${code}&redirect_uri=${window.location.origin}`;
+		const { data } = await axios({
+			url,
+			method: "GET",
+		});
+
+		return {
+			data,
+		};
+	} catch (e) {
+		console.error(e);
+		return {
+			error: true,
+		};
+	}
 };
