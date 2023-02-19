@@ -64,7 +64,7 @@ function Content() {
 			return;
 		}
 
-		alert(JSON.stringify(data));
+		console.log(JSON.stringify(data));
 
 		twitterRef.current.scrollIntoView({ behavior: "smooth" });
 		changeCompleted({ wallet: true, discord: true });
