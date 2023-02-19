@@ -4,6 +4,7 @@ import {
 	EMAIL_SERVER,
 	X_CLIENT_ID,
 	X_CLIENT_SECRET,
+	IS_LOCAL,
 } from "./const";
 import axios from "axios";
 import queryString from "query-string";
@@ -96,10 +97,18 @@ export const postSendToken = async (email) => {
 	} catch (e) {
 		console.error(e);
 
-		if (e.response && e.response.data) {
-			const { code } = e.response.data;
+		const { response } = e;
+		if (IS_LOCAL && response.status === 403) {
 			return {
-				error: code,
+				data: {
+					sendMailStatus: "SUCCESS",
+				},
+			};
+		}
+
+		if (response && response.data && response.data.code) {
+			return {
+				error: e.response.data.code,
 			};
 		} else {
 			return {
@@ -131,10 +140,9 @@ export const postCheckToken = async (email, token) => {
 	} catch (e) {
 		console.error(e);
 
-		if (e.response && e.response.data) {
-			const { code } = e.response.data;
+		if (e.response && e.response.data && e.response.data.code) {
 			return {
-				error: code,
+				error: e.response.data.code,
 			};
 		} else {
 			return {

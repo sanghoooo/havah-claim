@@ -19,6 +19,7 @@ import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { getDiscordOauthToken, getTwitterOauthToken } from "../../utils/api";
 import { toast } from "react-hot-toast";
+import _ from "lodash";
 
 function Content() {
 	const [completed, setCompleted] = useRecoilState(completedState);
@@ -50,7 +51,6 @@ function Content() {
 	const checkDiscordAccessToken = useCallback(async (code) => {
 		window.history.replaceState({}, "", "/");
 		discordRef.current.scrollIntoView({ behavior: "smooth" });
-		changeCompleted({ wallet: true });
 
 		const { data, error } = await getDiscordOauthToken(code);
 		if (error || !data.access_token) {
@@ -65,7 +65,6 @@ function Content() {
 	const checkTwitterAccessToken = useCallback(async (code) => {
 		window.history.replaceState({}, "", "/");
 		twitterRef.current.scrollIntoView({ behavior: "smooth" });
-		changeCompleted({ wallet: true, discord: true });
 
 		const { data, error } = await getTwitterOauthToken(code);
 
@@ -78,23 +77,34 @@ function Content() {
 		setTwitterAccessToken(data.result.accessToken);
 	}, []);
 
-	useEffect(() => {
-		const { address } = account;
+	const refreshCompleted = useCallback(() => {
+		const copied = _.cloneDeep(completed);
+		Object.keys(INITIAL_CONTENTS_COMPLETED).forEach((key) => {
+			copied[key] = copied[key] === undefined ? false : copied[key];
+		});
 
-		if (address) {
+		changeCompleted(copied);
+	}, [changeCompleted]);
+
+	useEffect(() => {
+		if (account.address) {
 			const { search } = window.location;
 			const parsed = queryString.parse(search);
 			if (parsed.state && parsed.code && twitterRef) {
 				checkTwitterAccessToken(parsed.code);
 			} else if (parsed.code && discordRef.current) {
 				checkDiscordAccessToken(parsed.code);
-			} else {
-				changeCompleted({ wallet: true });
 			}
+
+			if (completed.claim) {
+				changeCompleted(INITIAL_CONTENTS_COMPLETED);
+			}
+
+			refreshCompleted();
 		} else {
 			changeCompleted(INITIAL_CONTENTS_COMPLETED);
 		}
-	}, [account]);
+	}, [account.address]);
 
 	return (
 		<div className="Content">
@@ -150,6 +160,7 @@ function Content() {
 					previous={completed.email}
 					completed={completed.claim}
 					changeCompleted={changeCompleted}
+					goScrollRef={goScrollRef}
 				/>
 			</section>
 		</div>

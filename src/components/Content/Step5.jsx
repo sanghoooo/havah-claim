@@ -9,14 +9,14 @@ import {
 	twitterAccessTokenState,
 } from "../../recoil/atom";
 import { postRequestClaim } from "../../utils/api";
-import { CLAIM_ERROR, DISCORD_SERVER } from "../../utils/const";
+import { CLAIM_ERROR, DISCORD_SERVER, INITIAL_CONTENTS_COMPLETED } from "../../utils/const";
 import { Copy, NewLink } from "../../utils/icons";
 import { delay, ellipsisHash } from "../../utils/util";
 import { useWallet } from "../../utils/wallet";
 import Button from "../Button";
 import Step from "./Step";
 
-export default function Step5({ previous, completed, changeCompleted }) {
+export default function Step5({ previous, completed, changeCompleted, goScrollRef }) {
 	const [txHash, setTxHash] = useState("");
 	const account = useRecoilValue(accountState);
 	const email = useRecoilValue(emailState);
@@ -112,8 +112,17 @@ export default function Step5({ previous, completed, changeCompleted }) {
 							toast.success("Claim HAVAH successfully.");
 						}}
 						disabled={completed === true}
-						title={completed ? "CONGRATULATION!" : "CLAIM"}
+						title={completed ? "CLAIMED" : "CLAIM"}
 					/>
+					{/* <Button
+						mint
+						lined
+						onClick={async () => {
+							changeCompleted(INITIAL_CONTENTS_COMPLETED);
+							goScrollRef();
+						}}
+						title="RESET"
+					/> */}
 				</>
 			}
 		/>

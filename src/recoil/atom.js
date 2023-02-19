@@ -10,6 +10,7 @@ const { persistAtom } = recoilPersist({
 export const completedState = atom({
 	key: "completedState",
 	default: INITIAL_CONTENTS_COMPLETED,
+	effects: [persistAtom],
 });
 
 export const accountState = atom({

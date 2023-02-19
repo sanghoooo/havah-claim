@@ -72,7 +72,17 @@ function EmailVerifier({ completed, changeCompleted }) {
 		} else {
 			return "NEXT";
 		}
-	}, [completed, sendSuccess]);
+	}, [sendSuccess]);
+
+	const buttonDisbled = useMemo(() => {
+		if (completed) {
+			return true;
+		} else if (sendSuccess && !codeValue) {
+			return true;
+		} else {
+			return false;
+		}
+	}, [completed, sendSuccess, codeValue]);
 
 	return (
 		<>
@@ -106,7 +116,7 @@ function EmailVerifier({ completed, changeCompleted }) {
 			<Button
 				mint
 				filled
-				disabled={completed}
+				disabled={buttonDisbled}
 				onClick={() => {
 					if (sendSuccess) {
 						checkCode(emailValue, codeValue);

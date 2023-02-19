@@ -19,6 +19,9 @@ function App() {
 					top: 60 + 16,
 				}}
 				toastOptions={{
+					style: {
+						maxWidth: 400,
+					},
 					className: "toast",
 					success: {
 						iconTheme: {

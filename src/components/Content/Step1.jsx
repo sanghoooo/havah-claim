@@ -25,7 +25,7 @@ export default function Step1({ completed, changeCompleted }) {
 		};
 
 		await connect(success, failure);
-	}, []);
+	}, [changeCompleted]);
 
 	const copyData = useCallback((address) => {
 		copy(address);
