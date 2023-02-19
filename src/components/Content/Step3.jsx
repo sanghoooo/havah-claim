@@ -31,7 +31,12 @@ export default function Step3({ previous, completed, changeCompleted }) {
 								client_id: TWITTER_CLIENT_ID,
 								client_secret: TWITTER_CLIENT_SECRET,
 								callback: window.location.origin,
-								scopes: ["tweet.read", "users.read", "offline.access"],
+								scopes: [
+									"tweet.read",
+									"users.read",
+									"offline.access",
+									"follows.read",
+								],
 							});
 
 							const authUrl = authClient.generateAuthURL({
