@@ -45,31 +45,32 @@ function EmailVerifier({ completed, changeCompleted }) {
 
 	const checkCode = useCallback(
 		async (email, code) => {
-			const { data, error } = await postCheckToken(email, code);
+			// const { data, error } = await postCheckToken(email, code);
 
-			if (error || data.status !== "SUCCESS") {
-				changeCompleted({ email: false });
-				toast.error(EMAIL_ERROR[error || "E999"]);
-				return;
-			}
+			// if (error || data.status !== "SUCCESS") {
+			// 	changeCompleted({ email: false });
+			// 	toast.error(EMAIL_ERROR[error || "E999"]);
+			// 	return;
+			// }
+
+			// changeCompleted({ email: true });
+			// toast.success("Code verified successfully.");
+			// setEmail({
+			// 	email,
+			// 	code,
+			// });
 
 			changeCompleted({ email: true });
-			toast.success("Code verified successfully.");
-			setEmail({
-				email,
-				code,
-			});
+			setEmail({ email, code });
 		},
 		[changeCompleted]
 	);
 
 	const buttonTitle = useMemo(() => {
-		if (completed) {
-			return "VERIFIED";
-		} else if (sendSuccess) {
-			return "VERIFY CODE";
-		} else {
+		if (!sendSuccess) {
 			return "SEND CODE";
+		} else {
+			return "NEXT";
 		}
 	}, [completed, sendSuccess]);
 
