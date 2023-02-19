@@ -98,7 +98,7 @@ export const postSendToken = async (email) => {
 export const postCheckToken = async (email, token) => {
 	try {
 		const { data } = await axios.post(
-			`/email-valid/check-token`,
+			`${EMAIL_SERVER}/email-valid/check-token`,
 			{
 				email,
 				token,

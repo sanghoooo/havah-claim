@@ -8,7 +8,11 @@ export const IS_LOCAL = ["localhost", "127.0.0.1"].some((host) =>
 	window.location.origin.includes(host)
 );
 
-export const EMAIL_SERVER = IS_DEV ? "https://dev-openapi.havah.io" : "https://openapi.havah.io";
+export const EMAIL_SERVER = IS_LOCAL
+	? ""
+	: IS_DEV
+	? "https://dev-openapi.havah.io"
+	: "https://openapi.havah.io";
 export const X_CLIENT_ID = IS_DEV ? "dev" : "cL7m2onhGiDReOS0";
 export const X_CLIENT_SECRET = IS_DEV ? "dev" : "74523893133904843467523313408055";
 export const DISCORD_CLIENT_ID = "1075705706356936796";
