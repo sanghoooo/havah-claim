@@ -35,7 +35,6 @@ export const INITIAL_CONTENTS_COMPLETED = {
 
 //////////
 
-export const MOCK_SERVER = "https://b9fd7648-f64f-4bb9-8213-d7bf2f9723ae.mock.pstmn.io";
 export const EVENT_SERVER = "https://event.vega.havah.io";
 export const INSTALL_LINK =
 	"https://chrome.google.com/webstore/detail/havah-wallet/cnncmdhjacpkmjmkcafchppbnpnhdmon";
