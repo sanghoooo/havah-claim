@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { useSetRecoilState } from "recoil";
 import { emailState } from "../../recoil/atom";
 import { postCheckToken, postSendToken } from "../../utils/api";
+import { EMAIL_ERROR } from "../../utils/const";
 import { validateEmail } from "../../utils/util";
 import Button from "../Button";
 import Input from "../Input";
@@ -32,7 +33,7 @@ function EmailVerifier({ completed, changeCompleted }) {
 
 			if (error || data.sendMailStatus !== "SUCCESS") {
 				changeCompleted({ email: false });
-				toast.error("Failed to send code.");
+				toast.error(EMAIL_ERROR[error || "E998"]);
 				return;
 			}
 
@@ -48,7 +49,7 @@ function EmailVerifier({ completed, changeCompleted }) {
 
 			if (error || data.status !== "SUCCESS") {
 				changeCompleted({ email: false });
-				toast.error("Failed to verify code.");
+				toast.error(EMAIL_ERROR[error || "E999"]);
 				return;
 			}
 

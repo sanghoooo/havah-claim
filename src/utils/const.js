@@ -10,11 +10,11 @@ export const IS_LOCAL = ["localhost", "127.0.0.1"].some((host) =>
 
 export const EMAIL_SERVER = IS_LOCAL
 	? ""
-	: IS_DEV
-	? "https://dev-openapi.havah.io"
-	: "https://openapi.havah.io";
-export const X_CLIENT_ID = IS_DEV ? "dev" : "cL7m2onhGiDReOS0";
-export const X_CLIENT_SECRET = IS_DEV ? "dev" : "74523893133904843467523313408055";
+	: IS_PRD
+	? "https://openapi.havah.io"
+	: "https://dev-openapi.havah.io";
+export const X_CLIENT_ID = IS_PRD ? "cL7m2onhGiDReOS0" : "dev";
+export const X_CLIENT_SECRET = IS_PRD ? "74523893133904843467523313408055" : "dev";
 export const DISCORD_CLIENT_ID = "1075705706356936796";
 export const DISCORD_CLIENT_SECRET = "Ug228F8e3p_HRVxM7xRXebibu0t6ip8s";
 export const DISCORD_LOGIN_LINK = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${window.location.origin}&response_type=code&scope=identify%20guilds`;
@@ -30,10 +30,12 @@ export const SCAN_ADDRESS_LINK = `${SCAN_HOST}/address/`;
 export const SCAN_TX_HASH_LINK = `${SCAN_HOST}/txn/`;
 
 export const EMAIL_ERROR = {
-	E001: "INVALID_EMAIL",
-	E002: "INVALID_TOKEN",
-	E003: "ALREADY_VERIFIED_EMAIL",
-	E004: "WRONG_ACCESS",
+	E001: "Invalid email address.", // INVALID_EMAIL
+	E002: "Invalid code.", // INVALID_TOKEN
+	E003: "Already verified email address.", // ALREADY_VERIFIED_EMAIL
+	E004: "Wrong access.", // WRONG_ACCESS
+	E998: "Failed to send code.",
+	E999: "Failed to verify code.",
 };
 
 export const CLAIM_ERROR = {

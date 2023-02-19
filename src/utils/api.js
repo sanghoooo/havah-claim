@@ -1,4 +1,10 @@
-import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, X_CLIENT_ID, X_CLIENT_SECRET } from "./const";
+import {
+	DISCORD_CLIENT_ID,
+	DISCORD_CLIENT_SECRET,
+	EMAIL_SERVER,
+	X_CLIENT_ID,
+	X_CLIENT_SECRET,
+} from "./const";
 import axios from "axios";
 import queryString from "query-string";
 
@@ -88,10 +94,18 @@ export const postSendToken = async (email) => {
 			data,
 		};
 	} catch (e) {
-		const { code } = e.response.data;
-		return {
-			error: code,
-		};
+		console.error(e);
+
+		if (e.response && e.response.data) {
+			const { code } = e.response.data;
+			return {
+				error: code,
+			};
+		} else {
+			return {
+				error: "E998",
+			};
+		}
 	}
 };
 
@@ -115,10 +129,18 @@ export const postCheckToken = async (email, token) => {
 			data,
 		};
 	} catch (e) {
-		const { code } = e.response.data;
-		return {
-			error: code,
-		};
+		console.error(e);
+
+		if (e.response && e.response.data) {
+			const { code } = e.response.data;
+			return {
+				error: code,
+			};
+		} else {
+			return {
+				error: "E999",
+			};
+		}
 	}
 };
 
