@@ -18,6 +18,7 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { getDiscordOauthToken, getTwitterOauthToken } from "../../utils/api";
+import { toast } from "react-hot-toast";
 
 function Content() {
 	const [completed, setCompleted] = useRecoilState(completedState);
@@ -47,30 +48,34 @@ function Content() {
 	}, []);
 
 	const checkDiscordAccessToken = useCallback(async (code) => {
+		window.history.replaceState({}, "", "/");
+		discordRef.current.scrollIntoView({ behavior: "smooth" });
+		changeCompleted({ wallet: true });
+
 		const { data, error } = await getDiscordOauthToken(code);
 		if (error || !data.access_token) {
+			toast.error("Failed to authorize with Discord.");
 			return;
 		}
 
-		discordRef.current.scrollIntoView({ behavior: "smooth" });
-		changeCompleted({ wallet: true });
+		toast.success("Discord authorized.");
 		setDiscordAccessToken(data.access_token);
 	}, []);
 
 	const checkTwitterAccessToken = useCallback(async (code) => {
+		window.history.replaceState({}, "", "/");
+		twitterRef.current.scrollIntoView({ behavior: "smooth" });
+		changeCompleted({ wallet: true, discord: true });
+
 		const { data, error } = await getTwitterOauthToken(code);
 
-		if (error) {
+		if (error || !(data.result && data.result.accessToken)) {
+			toast.error("Failed to authorize with Twitter.");
 			return;
 		}
 
-		console.log(JSON.stringify(data));
-
-		twitterRef.current.scrollIntoView({ behavior: "smooth" });
-		changeCompleted({ wallet: true, discord: true });
-		if (data && data.result) {
-			setTwitterAccessToken(data.result.accessToken);
-		}
+		toast.success("Twitter authorized.");
+		setTwitterAccessToken(data.result.accessToken);
 	}, []);
 
 	useEffect(() => {
@@ -79,7 +84,6 @@ function Content() {
 		if (address) {
 			const { search } = window.location;
 			const parsed = queryString.parse(search);
-
 			if (parsed.state && parsed.code && twitterRef) {
 				checkTwitterAccessToken(parsed.code);
 			} else if (parsed.code && discordRef.current) {
