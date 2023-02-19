@@ -108,7 +108,7 @@ export default function Step5({ previous, completed, changeCompleted }) {
 							}
 
 							changeCompleted({ claim: true });
-							toast.error("Claim HAVAH successfully.");
+							toast.success("Claim HAVAH successfully.");
 						}}
 						disabled={completed === true}
 						title={completed ? "CONGRATULATION!" : "CLAIM"}
