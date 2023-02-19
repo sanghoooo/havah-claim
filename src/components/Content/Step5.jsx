@@ -1,5 +1,5 @@
 import copy from "copy-to-clipboard";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import {
@@ -11,12 +11,13 @@ import {
 import { postRequestClaim } from "../../utils/api";
 import { CLAIM_ERROR, DISCORD_SERVER } from "../../utils/const";
 import { Copy, NewLink } from "../../utils/icons";
-import { ellipsisHash } from "../../utils/util";
+import { delay, ellipsisHash } from "../../utils/util";
 import { useWallet } from "../../utils/wallet";
 import Button from "../Button";
 import Step from "./Step";
 
 export default function Step5({ previous, completed, changeCompleted }) {
+	const [txHash, setTxHash] = useState("");
 	const account = useRecoilValue(accountState);
 	const email = useRecoilValue(emailState);
 	const discordAccessToken = useRecoilValue(discordAccessTokenState);
@@ -46,9 +47,9 @@ export default function Step5({ previous, completed, changeCompleted }) {
 			title="Claim HAVAH"
 			titleCompleted={
 				<>
-					{ellipsisHash(account.address)}
-					<NewLink white size="1.02em" onClick={() => scan(account.address)} />
-					<Copy white size="1.1em" onClick={() => copyData(account.address)} />
+					{ellipsisHash(txHash)}
+					<NewLink white size="1.02em" onClick={() => scan(txHash)} />
+					<Copy white size="1.1em" onClick={() => copyData(txHash)} />
 				</>
 			}
 			description={<>Claim HAVAH using the informations below.</>}
@@ -95,10 +96,16 @@ export default function Step5({ previous, completed, changeCompleted }) {
 								return;
 							}
 
-							const { retCode } = data;
+							const { retCode, txHash } = data;
 							if (retCode !== 0) {
 								toast.error(CLAIM_ERROR[retCode]);
 								return;
+							}
+
+							await delay(5000);
+
+							if (txHash) {
+								setTxHash(txHash);
 							}
 						}}
 						disabled={completed === true}
