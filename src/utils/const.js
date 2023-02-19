@@ -48,7 +48,7 @@ export const INITIAL_CONTENTS_COMPLETED = {
 	wallet: false,
 	discord: false,
 	twitter: false,
-	email: true,
+	email: false,
 	claim: false,
 };
 
