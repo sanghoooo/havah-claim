@@ -155,15 +155,15 @@ function Content() {
 				<div className="background"></div>
 				<div ref={scrollRef} className="scroll_position"></div>
 				<h2>STEPS</h2>
-				<Step1 completed={completed.wallet} changeCompleted={changeCompleted} />
+				{/* <Step1 completed={completed.wallet} changeCompleted={changeCompleted} /> */}
 				<div ref={discordRef} style={{ position: "relative", top: -100 }} />
-				<Step2
+				{/* <Step2
 					previous={completed.wallet}
 					completed={completed.discord}
 					changeCompleted={changeCompleted}
-				/>
+				/> */}
 				<div ref={twitterRef} style={{ position: "relative", top: -100 }} />
-				<Step3
+				{/* <Step3
 					previous={completed.discord}
 					completed={completed.twitter}
 					changeCompleted={changeCompleted}
@@ -178,7 +178,7 @@ function Content() {
 					completed={completed.claim}
 					changeCompleted={changeCompleted}
 					goScrollRef={goScrollRef}
-				/>
+				/> */}
 			</section>
 		</div>
 	);
