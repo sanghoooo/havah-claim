@@ -40,7 +40,7 @@ function Congratulation() {
 						textAlign: "center",
 					}}
 				>
-					Claim HAVAH Event Reward successfully.
+					Claimed HAVAH Event Reward successfully.
 					<br />
 				</p>
 				<div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 25 }}>

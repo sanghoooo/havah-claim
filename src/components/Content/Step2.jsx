@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { FaDiscord } from "react-icons/fa";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { discordAccessTokenState } from "../../recoil/atom";
 import { getUsersGuilds } from "../../utils/api";
 import { DISCORD_LOGIN_LINK, EXTERNAL, HAVAH_GUILD_ID } from "../../utils/const";
@@ -11,7 +11,7 @@ import Button from "../Button";
 import Step from "./Step";
 
 export default function Step2({ previous, completed, changeCompleted }) {
-	const [discordAccessToken, setDiscordAccessToken] = useRecoilState(discordAccessTokenState);
+	const discordAccessToken = useRecoilValue(discordAccessTokenState);
 
 	const handleError = useCallback(
 		(message) => {
@@ -73,14 +73,12 @@ export default function Step2({ previous, completed, changeCompleted }) {
 							if (!included) {
 								toast.error("After join the server, try again.");
 								changeCompleted({ discord: false });
-								setDiscordCode("");
 
 								await delay(3000);
 								window.open(EXTERNAL.Discord.href);
 							} else {
 								toast.success("Verified joining the server.");
 								changeCompleted({ discord: true });
-								setDiscordAccessToken(access_token);
 							}
 						}}
 						title={
