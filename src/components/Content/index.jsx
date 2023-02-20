@@ -77,14 +77,23 @@ function Content() {
 		setTwitterAccessToken(data.result.accessToken);
 	}, []);
 
-	const refreshCompleted = useCallback(() => {
-		const copied = _.cloneDeep(completed);
-		Object.keys(INITIAL_CONTENTS_COMPLETED).forEach((key) => {
-			copied[key] = copied[key] === undefined ? false : copied[key];
-		});
+	const refreshCompleted = useCallback(
+		(address) => {
+			const copied = _.cloneDeep(completed);
+			Object.keys({
+				INITIAL_CONTENTS_COMPLETED,
+			}).forEach((key) => {
+				copied[key] = copied[key] === undefined ? false : copied[key];
+			});
 
-		changeCompleted(copied);
-	}, [changeCompleted]);
+			if (address) {
+				copied.wallet = true;
+			}
+
+			changeCompleted(copied);
+		},
+		[changeCompleted, account]
+	);
 
 	useEffect(() => {
 		if (account.address) {
@@ -99,18 +108,15 @@ function Content() {
 			if (completed.claim) {
 				changeCompleted({
 					...INITIAL_CONTENTS_COMPLETED,
-					wallet: true,
 				});
-			} else {
-				changeCompleted({ wallet: true });
 			}
 
-			refreshCompleted();
+			refreshCompleted(account.address);
 		} else {
 			changeCompleted(INITIAL_CONTENTS_COMPLETED);
 			scrollRef.current.scrollIntoView();
 		}
-	}, [account.address]);
+	}, [account]);
 
 	return (
 		<div className="Content">
