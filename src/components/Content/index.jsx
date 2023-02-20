@@ -7,6 +7,7 @@ import {
 	accountState,
 	completedState,
 	discordAccessTokenState,
+	retryState,
 	twitterAccessTokenState,
 } from "../../recoil/atom";
 import { INITIAL_CONTENTS_COMPLETED, WEBSITE_LINK } from "../../utils/const";
@@ -29,6 +30,7 @@ function Content() {
 	const account = useRecoilValue(accountState);
 	const setDiscordAccessToken = useSetRecoilState(discordAccessTokenState);
 	const setTwitterAccessToken = useSetRecoilState(twitterAccessTokenState);
+	const retry = useRecoilValue(retryState);
 
 	const changeCompleted = useCallback(
 		(changed) => {
@@ -105,6 +107,13 @@ function Content() {
 			changeCompleted(INITIAL_CONTENTS_COMPLETED);
 		}
 	}, [account.address]);
+
+	useEffect(() => {
+		if (retry) {
+			changeCompleted(INITIAL_CONTENTS_COMPLETED);
+			scrollRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [retry]);
 
 	return (
 		<div className="Content">

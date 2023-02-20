@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import Mobile from "./components/Mobile";
 import { IS_MOBILE } from "./utils/const";
 import { Toaster } from "react-hot-toast";
-import Congratulation from "./components/Congratulation";
+import ClaimError from "./components/ClaimError";
 
 function App() {
 	if (IS_MOBILE) {
@@ -38,7 +38,7 @@ function App() {
 			<Header />
 			<Content />
 			<Footer />
-			<Congratulation />
+			<ClaimError />
 		</div>
 	);
 }

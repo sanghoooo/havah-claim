@@ -51,3 +51,13 @@ export const completionTimeState = atom({
 	key: "completionTimeState",
 	default: "",
 });
+
+export const claimErrorState = atom({
+	key: "claimErrorState",
+	default: "",
+});
+
+export const retryState = atom({
+	key: "retryState",
+	default: "",
+});

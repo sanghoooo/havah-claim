@@ -1,9 +1,10 @@
 import copy from "copy-to-clipboard";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
 	accountState,
+	claimErrorState,
 	discordAccessTokenState,
 	emailState,
 	twitterAccessTokenState,
@@ -22,6 +23,7 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 	const email = useRecoilValue(emailState);
 	const discordAccessToken = useRecoilValue(discordAccessTokenState);
 	const twitterAccessToken = useRecoilValue(twitterAccessTokenState);
+	const setClaimError = useSetRecoilState(claimErrorState);
 	const { scan } = useWallet();
 
 	const copyData = useCallback((txHash) => {
@@ -91,14 +93,14 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 
 							if (error) {
 								changeCompleted({ claim: false });
-								toast.error(CLAIM_ERROR[9999]);
+								setClaimError(CLAIM_ERROR[9999]);
 								return;
 							}
 
 							const { retCode, result } = data;
 							if (retCode !== 0) {
 								changeCompleted({ claim: false });
-								toast.error(CLAIM_ERROR[retCode]);
+								setClaimError(CLAIM_ERROR[9999]);
 								return;
 							}
 
