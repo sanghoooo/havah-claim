@@ -44,6 +44,7 @@ function Step({
 						}}
 					>
 						{completed === false && index}
+						{completed === null && index}
 						{completed === undefined && <Loader discord={discord} twitter={twitter} />}
 						{completed === true && <Confirm white />}
 					</span>

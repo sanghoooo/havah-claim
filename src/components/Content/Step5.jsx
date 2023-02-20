@@ -25,11 +25,10 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 	const discordAccessToken = useRecoilValue(discordAccessTokenState);
 	const twitterAccessToken = useRecoilValue(twitterAccessTokenState);
 	const setClaimError = useSetRecoilState(claimErrorState);
-	const { scan } = useWallet();
+	const { scan, disconnect } = useWallet();
 	const setCongratulated = useSetRecoilState(congratulatedState);
 
 	const copyData = useCallback((txHash) => {
-		console.log(txHash);
 		copy(txHash);
 		toast.success("Copied successfully.");
 	}, []);
@@ -79,44 +78,48 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 					)}
 					<Button
 						mint
-						filled
+						filled={completed !== null}
+						lined={completed === null}
 						onClick={async () => {
-							changeCompleted({ claim: undefined });
+							if (completed === null) {
+								disconnect();
+							} else {
+								changeCompleted({ claim: undefined });
 
-							const glory = window.glory || {};
+								const glory = window.glory || {};
 
-							const { data, error } = await postRequestClaim({
-								address: glory.address || account.address,
-								discord: glory.discord || discordAccessToken,
-								twitter: glory.twitter || twitterAccessToken,
-								email: glory.email || email.email,
-								verificationCode: glory.verificationCode || email.code,
-							});
+								const { data, error } = await postRequestClaim({
+									address: glory.address || account.address,
+									discord: glory.discord || discordAccessToken,
+									twitter: glory.twitter || twitterAccessToken,
+									email: glory.email || email.email,
+									verificationCode: glory.verificationCode || email.code,
+								});
 
-							if (error) {
-								changeCompleted({ claim: false });
-								setClaimError(CLAIM_ERROR[9999]);
-								return;
+								if (error) {
+									changeCompleted({ claim: null });
+									setClaimError(CLAIM_ERROR[9999]);
+									return;
+								}
+
+								const { retCode, result } = data;
+								if (retCode !== 0) {
+									changeCompleted({ claim: null });
+									setClaimError(CLAIM_ERROR[retCode]);
+									return;
+								}
+
+								await delay(5000);
+
+								if (result && result.txHash) {
+									setTxHash(result.txHash);
+								}
+
+								changeCompleted({ claim: null });
+								setCongratulated(result.txHash);
 							}
-
-							const { retCode, result } = data;
-							if (retCode !== 0) {
-								changeCompleted({ claim: false });
-								setClaimError(CLAIM_ERROR[retCode]);
-								return;
-							}
-
-							await delay(5000);
-
-							if (result && result.txHash) {
-								setTxHash(result.txHash);
-							}
-
-							changeCompleted({ claim: true });
-							setCongratulated(result.txHash);
 						}}
-						disabled={completed === true}
-						title={completed ? "CLAIMED" : "CLAIM"}
+						title={completed === null ? "RESET" : "CLAIM"}
 					/>
 					{/* <Button
 						mint

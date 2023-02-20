@@ -51,8 +51,8 @@ function Congratulation() {
 						filled
 						title="SCAN TxHash"
 						onClick={() => {
-							close();
 							scan(congratulated);
+							close();
 						}}
 					/>
 				</div>

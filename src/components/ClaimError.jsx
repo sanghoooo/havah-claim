@@ -31,7 +31,7 @@ function ClaimError() {
 						small
 						mint
 						filled
-						title="DISCONNECT & RETRY from the first"
+						title="RETRY"
 						onClick={() => {
 							close();
 							disconnect();
