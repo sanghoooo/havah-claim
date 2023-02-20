@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
 @import "./common.scss";
 
 * {
-    box-sizing: border-box;
-    font-family: 'Brutal Type';
+	box-sizing: border-box;
+	font-family: "Brutal Type";
 }
 
 body {
-    margin: 0;
-    background-color: $dark_black_2;
+	margin: 0;
+	background-color: $dark_black_2;
 }
 
 p,
@@ -16,101 +16,101 @@ h1,
 h2,
 h3,
 h4 {
-    padding: 0;
-    margin: 0;
-    color: $white;
+	padding: 0;
+	margin: 0;
+	color: $white;
 
-    &:not(p) {
-        font-weight: bold;
-    }
+	&:not(p) {
+		font-weight: bold;
+	}
 }
 
 p {
-    line-height: 1;
+	line-height: 1;
 }
 
 h1 {
-    font-size: 50px;
-    line-height: 50px;
+	font-size: 50px;
+	line-height: 50px;
 }
 
 h2 {
-    font-size: 38px;
-    line-height: 48px;
+	font-size: 38px;
+	line-height: 48px;
 }
 
 h3 {
-    font-size: 30px;
-    line-height: 36px;
+	font-size: 30px;
+	line-height: 36px;
 }
 
 h4 {
-    font-size: 24px;
-    line-height: 32px;
+	font-size: 24px;
+	line-height: 32px;
 }
 
 h1,
 h2,
 h3,
 h4 {
-    font-family: 'Luckiest Guy', cursive;
-    letter-spacing: 3px;
+	font-family: "Luckiest Guy", cursive;
+	letter-spacing: 3px;
 }
 
 h1,
 h2 {
-    span {
-        $size: 12px;
-        display: block;
-        font-size: $size;
-        line-height: $size;
-        color: $mint_light;
-        margin-bottom: 10px;
-        letter-spacing: 0px;
-    }
+	span {
+		$size: 12px;
+		display: block;
+		font-size: $size;
+		line-height: $size;
+		color: $mint_light;
+		margin-bottom: 10px;
+		letter-spacing: 0px;
+	}
 }
 
 .App {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    min-width: $screen_width;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	min-width: $screen_width;
 }
 
 .toast {
-    border-radius: 3px;
+	border-radius: 3px;
 }
 
 @keyframes bounce {
-    0% {
-        bottom: 50px;
-    }
+	0% {
+		bottom: 50px;
+	}
 
-    50% {
-        bottom: 35px;
-    }
+	50% {
+		bottom: 35px;
+	}
 
-    100% {
-        bottom: 50px;
-    }
+	100% {
+		bottom: 50px;
+	}
 }
 
 @keyframes appear {
-    0% {
-        transform: scale(0);
-    }
+	0% {
+		transform: scale(0);
+	}
 
-    85% {
-        transform: scale(1.15);
-    }
+	85% {
+		transform: scale(1.15);
+	}
 
-    100% {
-        transform: scale(1);
-    }
+	100% {
+		transform: scale(1);
+	}
 }
 
 @keyframes blink {
-    50% {
-        opacity: 0;
-    }
+	50% {
+		opacity: 0;
+	}
 }

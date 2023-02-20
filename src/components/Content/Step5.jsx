@@ -5,6 +5,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
 	accountState,
 	claimErrorState,
+	congratulatedState,
 	discordAccessTokenState,
 	emailState,
 	twitterAccessTokenState,
@@ -25,6 +26,7 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 	const twitterAccessToken = useRecoilValue(twitterAccessTokenState);
 	const setClaimError = useSetRecoilState(claimErrorState);
 	const { scan } = useWallet();
+	const setCongratulated = useSetRecoilState(congratulatedState);
 
 	const copyData = useCallback((txHash) => {
 		console.log(txHash);
@@ -111,7 +113,7 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 							}
 
 							changeCompleted({ claim: true });
-							toast.success("Claim HAVAH successfully.");
+							setCongratulated(result.txHash);
 						}}
 						disabled={completed === true}
 						title={completed ? "CLAIMED" : "CLAIM"}

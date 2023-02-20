@@ -5,6 +5,7 @@ import Mobile from "./components/Mobile";
 import { IS_MOBILE } from "./utils/const";
 import { Toaster } from "react-hot-toast";
 import ClaimError from "./components/ClaimError";
+import Congratulation from "./components/Congratulation";
 
 function App() {
 	if (IS_MOBILE) {
@@ -39,6 +40,7 @@ function App() {
 			<Content />
 			<Footer />
 			<ClaimError />
+			<Congratulation />
 		</div>
 	);
 }

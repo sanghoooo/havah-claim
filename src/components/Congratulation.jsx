@@ -1,66 +1,60 @@
 import { useRecoilState } from "recoil";
-import { completionTimeState, congratulatedState, referralState } from "../recoil/atom";
+import { congratulatedState } from "../recoil/atom";
 import "./Congratulation.scss";
 import logo from "../assets/logo.svg";
-import moment from "moment";
 import Button from "./Button";
-import { useCallback, useMemo } from "react";
-import copy from "copy-to-clipboard";
-import { toast } from "react-hot-toast";
-import Links from "./Links";
-import { EXTERNAL } from "../utils/const";
+import { useCallback } from "react";
 import close_white from "../assets/close_white.svg";
+import { useWallet } from "../utils/wallet";
 
 function Congratulation() {
 	const [congratulated, setCongratulated] = useRecoilState(congratulatedState);
-	const [referral] = useRecoilState(referralState);
-	const [completionTime] = useRecoilState(completionTimeState);
-
-	const link = useMemo(() => `${window.location.origin}?referral=${referral}`, [referral]);
-	const list = useMemo(() => {
-		const result = {};
-		Object.keys(EXTERNAL).forEach((key) => {
-			if (EXTERNAL[key].social) {
-				result[key] = { ...EXTERNAL[key] };
-			}
-		});
-		return result;
-	}, []);
-
-	const copyLink = useCallback(() => {
-		copy(link);
-		toast.success("Copied successfully.");
-	}, [link]);
+	const { scan } = useWallet();
 
 	const close = useCallback(() => {
-		setCongratulated(false);
+		setCongratulated("");
 	}, [setCongratulated]);
 
 	if (!congratulated) return null;
 
 	return (
 		<div className="Congratulation" onClick={close}>
-			<div className="box" onClick={(e) => e.stopPropagation()}>
+			<div
+				className="box"
+				onClick={(e) => e.stopPropagation()}
+				style={{
+					width: 450,
+				}}
+			>
 				<div className="background"></div>
 				<div className="top">
 					<img className="logo" src={logo} alt="logo" />
 					<img className="close" src={close_white} alt="logo" onClick={close} />
 				</div>
-				<h1>CONGRATULATION!</h1>
-				<p className="text">
-					Your participation for HAVAH Incentivized Testnet is complete.
+				<h1 style={{ textAlign: "center", fontSize: 40, lineHeight: 1, marginLeft: 0 }}>
+					CONGRATULATION!
+				</h1>
+				<p
+					className="text"
+					style={{
+						textAlign: "center",
+					}}
+				>
+					Claim HAVAH Event Reward successfully.
 					<br />
-					The reward will be transferred to your HAVAH wallet registered.
-					<br />
-					<span>Completion Time: {moment.unix(completionTime).format("YYYY/MM/DD hh:mm [UTC]Z")}</span>
 				</p>
-				<div className="referral">
-					<span>{link}</span>
-					<Button mint filled title="Copy My Link" onClick={copyLink} />
-				</div>
-				<div className="join">
-					<p>{"Join our community and invite your friends!".toUpperCase()}</p>
-					<Links list={list} className="congratulation" />
+				<div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 25 }}>
+					<Button small mint lined title="CONFIRM" onClick={close} />
+					<Button
+						small
+						mint
+						filled
+						title="SCAN TxHash"
+						onClick={() => {
+							close();
+							scan(congratulated);
+						}}
+					/>
 				</div>
 			</div>
 		</div>

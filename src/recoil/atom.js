@@ -39,7 +39,7 @@ export const emailState = atom({
 
 export const congratulatedState = atom({
 	key: "congratulatedState",
-	default: false,
+	default: "",
 });
 
 export const referralState = atom({
