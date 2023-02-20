@@ -7,7 +7,6 @@ import {
 	accountState,
 	completedState,
 	discordAccessTokenState,
-	retryState,
 	twitterAccessTokenState,
 } from "../../recoil/atom";
 import { INITIAL_CONTENTS_COMPLETED, WEBSITE_LINK } from "../../utils/const";
@@ -30,7 +29,6 @@ function Content() {
 	const account = useRecoilValue(accountState);
 	const setDiscordAccessToken = useSetRecoilState(discordAccessTokenState);
 	const setTwitterAccessToken = useSetRecoilState(twitterAccessTokenState);
-	const retry = useRecoilValue(retryState);
 
 	const changeCompleted = useCallback(
 		(changed) => {
@@ -52,7 +50,7 @@ function Content() {
 
 	const checkDiscordAccessToken = useCallback(async (code) => {
 		window.history.replaceState({}, "", "/");
-		discordRef.current.scrollIntoView({ behavior: "smooth" });
+		discordRef.current.scrollIntoView();
 
 		const { data, error } = await getDiscordOauthToken(code);
 		if (error || !data.access_token) {
@@ -66,7 +64,7 @@ function Content() {
 
 	const checkTwitterAccessToken = useCallback(async (code) => {
 		window.history.replaceState({}, "", "/");
-		twitterRef.current.scrollIntoView({ behavior: "smooth" });
+		twitterRef.current.scrollIntoView();
 
 		const { data, error } = await getTwitterOauthToken(code);
 
@@ -105,15 +103,9 @@ function Content() {
 			refreshCompleted();
 		} else {
 			changeCompleted(INITIAL_CONTENTS_COMPLETED);
+			scrollRef.current.scrollIntoView();
 		}
 	}, [account.address]);
-
-	useEffect(() => {
-		if (retry) {
-			changeCompleted(INITIAL_CONTENTS_COMPLETED);
-			scrollRef.current.scrollIntoView({ behavior: "smooth" });
-		}
-	}, [retry]);
 
 	return (
 		<div className="Content">
@@ -122,7 +114,7 @@ function Content() {
 				<div className="background reflection"></div>
 				<h1>
 					<span>HAVAH</span>
-					HAVAH Reward Claim
+					HAVAH Event Reward Claim
 				</h1>
 				<p>
 					Join the official Discord server and follow the official Twitter account.

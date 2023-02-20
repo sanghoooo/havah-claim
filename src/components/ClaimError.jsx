@@ -1,15 +1,15 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { claimErrorState, retryState } from "../recoil/atom";
+import { useRecoilState } from "recoil";
+import { claimErrorState } from "../recoil/atom";
 import "./ClaimError.scss";
 import { useCallback } from "react";
 import close_white from "../assets/close_white.svg";
 import Button from "./Button";
-import { v4 as uuidv4 } from "uuid";
 import { Bad } from "../utils/icons";
+import { useWallet } from "../utils/wallet";
 
 function ClaimError() {
 	const [claimError, setClaimError] = useRecoilState(claimErrorState);
-	const setRetry = useSetRecoilState(retryState);
+	const { disconnect } = useWallet();
 
 	const close = useCallback(() => {
 		setClaimError(false);
@@ -34,7 +34,7 @@ function ClaimError() {
 						title="DISCONNECT & RETRY from the first"
 						onClick={() => {
 							close();
-							setRetry(uuidv4());
+							disconnect();
 						}}
 					/>
 				</div>

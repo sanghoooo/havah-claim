@@ -9,7 +9,7 @@ function Mobile() {
 				<div>
 					<Bad white size={60} />
 					<h3>
-						HAVAH Reward Claim page restricts access to mobile devices.
+						HAVAH Event Reward Claim page restricts access to mobile devices.
 						<br />
 					</h3>
 					<h4>
