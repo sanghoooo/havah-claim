@@ -19,7 +19,13 @@ function ClaimError() {
 
 	return (
 		<div className="ClaimError" onClick={close}>
-			<div className="box" onClick={(e) => e.stopPropagation()}>
+			<div
+				className="box"
+				style={{
+					width: 400,
+				}}
+				onClick={(e) => e.stopPropagation()}
+			>
 				<div className="top">
 					<Bad mint size={20} />
 					<img className="close" src={close_white} alt="logo" onClick={close} />
