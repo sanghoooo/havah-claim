@@ -100,7 +100,7 @@ export default function Step5({ previous, completed, changeCompleted, goScrollRe
 							const { retCode, result } = data;
 							if (retCode !== 0) {
 								changeCompleted({ claim: false });
-								setClaimError(CLAIM_ERROR[9999]);
+								setClaimError(CLAIM_ERROR[retCode]);
 								return;
 							}
 
