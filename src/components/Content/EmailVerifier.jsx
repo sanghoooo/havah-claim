@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { emailState } from "../../recoil/atom";
 import { postCheckToken, postSendToken } from "../../utils/api";
 import { EMAIL_ERROR } from "../../utils/const";
@@ -13,7 +13,17 @@ function EmailVerifier({ completed, changeCompleted }) {
 	const [emailError, setEmailError] = useState("");
 	const [sendSuccess, setSendSuccess] = useState(false);
 	const [codeValue, setCodeValue] = useState("");
-	const setEmail = useSetRecoilState(emailState);
+	const [email, setEmail] = useRecoilState(emailState);
+
+	useEffect(() => {
+		if (!email.email) {
+			setEmailValue("");
+		}
+
+		if (!email.code) {
+			setCodeValue("");
+		}
+	}, [email]);
 
 	const sendCode = useCallback(
 		async (value) => {

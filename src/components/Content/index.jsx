@@ -4,6 +4,7 @@ import { ArrowBottom, NewLink } from "../../utils/icons";
 import { useCallback, useRef } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+	emailState,
 	accountState,
 	completedState,
 	discordAccessTokenState,
@@ -29,6 +30,7 @@ function Content() {
 	const account = useRecoilValue(accountState);
 	const setDiscordAccessToken = useSetRecoilState(discordAccessTokenState);
 	const setTwitterAccessToken = useSetRecoilState(twitterAccessTokenState);
+	const setEmail = useSetRecoilState(emailState);
 
 	const changeCompleted = useCallback(
 		(changed) => {
@@ -114,6 +116,9 @@ function Content() {
 			refreshCompleted(account.address);
 		} else {
 			changeCompleted(INITIAL_CONTENTS_COMPLETED);
+			setDiscordAccessToken("");
+			setTwitterAccessToken("");
+			setEmail({});
 			scrollRef.current.scrollIntoView();
 		}
 	}, [account]);
