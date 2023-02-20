@@ -122,7 +122,7 @@ function Content() {
 				<div className="background reflection"></div>
 				<h1>
 					<span>HAVAH</span>
-					Claim HAVAH Airdrop
+					HAVAH Reward Claim
 				</h1>
 				<p>
 					Join the official Discord server and follow the official Twitter account.
