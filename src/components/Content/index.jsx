@@ -97,7 +97,12 @@ function Content() {
 			}
 
 			if (completed.claim) {
-				changeCompleted(INITIAL_CONTENTS_COMPLETED);
+				changeCompleted({
+					...INITIAL_CONTENTS_COMPLETED,
+					wallet: true,
+				});
+			} else {
+				changeCompleted({ wallet: true });
 			}
 
 			refreshCompleted();
